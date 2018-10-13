@@ -59,6 +59,12 @@
         <el-form-item label="标题" prop="title">
           <el-input v-model="picart.title"/>
         </el-form-item>
+        <el-form-item label="是否置顶" prop="is_top">
+          <el-select v-model="picart.is_top" placeholder="请选择">
+            <el-option label="不置顶" value="0"/>
+            <el-option label="置顶" value="1"/>
+          </el-select>
+        </el-form-item>
         <el-form-item label="是否显示图片" prop="show_first_image">
           <el-select v-model="picart.show_first_image" placeholder="请选择">
             <el-option label="不显示" value="0"/>
@@ -78,7 +84,7 @@
             <i v-else class="el-icon-plus avatar-uploader-icon"/>
           </el-upload>
         </el-form-item>
-        <el-form-item label="内容" prop="content" style="height: 260px">
+        <el-form-item label="内容" prop="content" style="height: 280px">
           <quill-editor ref="myQuillEditor" v-model="picart.content" :options="editorOption" style="height: 200px"/>
         </el-form-item>
       </el-form>
@@ -133,7 +139,8 @@ export default {
         content: '',
         category_id: '',
         first_image: '',
-        show_first_image: ''
+        show_first_image: '',
+        is_top: ''
       },
       dialogFormVisible: false,
       dialogStatus: '',
@@ -157,6 +164,9 @@ export default {
         ],
         show_first_image: [
           { required: true, message: '请选择', trigger: 'change' }
+        ],
+        is_top: [
+          { required: true, message: '请选择', trigger: 'change' }
         ]
       },
       selectOption: []
@@ -169,14 +179,12 @@ export default {
       {
         // 图片上传的设置
         uploadConfig: {
-          action: this.GLOBAL.uploadFileUrl,  // 必填参数 图片上传地址
-          // 必选参数  res是一个函数，函数接收的response为上传成功时服务器返回的数据
-          // 你必须把返回的数据中所包含的图片地址 return 回去
+          action: this.GLOBAL.uploadFileUrl,
           res: (response) => {
             console.log(response)
             return this.GLOBAL.servicePath + response.data
           },
-          name: 'file'  // 图片上传参数名
+          name: 'file'
         }
       }
     )
@@ -202,7 +210,8 @@ export default {
         content: '',
         category_id: '',
         first_image: '',
-        show_first_image: ''
+        show_first_image: '',
+        is_top: ''
       }
     },
     handleCreate() {
@@ -231,7 +240,8 @@ export default {
     },
     handleUpdate(row) {
       this.picart = Object.assign({}, row) // copy obj
-      this.category.show_first_image = this.category.show_first_image + ''
+      this.picart.show_first_image = this.picart.show_first_image + ''
+      this.picart.is_top = this.picart.is_top + ''
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
       this.$nextTick(() => {

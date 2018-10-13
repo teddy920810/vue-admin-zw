@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <tree-table :data="list" border>
+    <el-table :data="list" border fit highlight-current-row>
       <el-table-column label="评论">
         <template slot-scope="scope">
           <span>{{ scope.row.content }}</span>
@@ -21,7 +21,7 @@
           <el-button type="text" @click="deleteData(scope.row)">删除</el-button>
         </template>
       </el-table-column>
-    </tree-table>
+    </el-table>
     <div class="pagination-container">
       <el-pagination
         :current-page="listQuery.page"
@@ -36,12 +36,10 @@
   </div>
 </template>
 <script>
-import treeTable from '@/components/TreeTable'
 import { getCommentList, deleteComment } from '@/api/question'
 
 export default {
   name: 'QuComment',
-  components: { treeTable },
   data() {
     return {
       list: [],

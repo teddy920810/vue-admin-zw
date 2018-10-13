@@ -26,9 +26,15 @@
           {{ scope.row.member_name }}
         </template>
       </el-table-column>
+      <el-table-column label="一起问人数" width="100">
+        <template slot-scope="scope">
+          {{ scope.row.together_ask }}
+        </template>
+      </el-table-column>
       <el-table-column label="回答">
         <template slot-scope="scope">
           {{ scope.row.answer }}
+          {{ scope.row.answer_time }}
         </template>
       </el-table-column>
       <el-table-column align="center" label="状态" width="195">
@@ -67,6 +73,12 @@
         <el-form-item label="回答" prop="answer">
           <el-input v-model="answer.answer"/>
         </el-form-item>
+        <el-form-item label="是否置顶" prop="is_top">
+          <el-select v-model="answer.is_top" placeholder="请选择">
+            <el-option label="不置顶" value="0"/>
+            <el-option label="置顶" value="1"/>
+          </el-select>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取消</el-button>
@@ -102,7 +114,8 @@ export default {
       },
       answer: {
         id: undefined,
-        answer: ''
+        answer: '',
+        is_top: ''
       },
       dialogFormVisible: false,
       dialogStatus: '',
@@ -114,6 +127,9 @@ export default {
         answer: [
           { required: true, message: '请输入', trigger: 'blur' },
           { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' }
+        ],
+        is_top: [
+          { required: true, message: '请选择', trigger: 'change' }
         ]
       }
     }
@@ -133,7 +149,8 @@ export default {
     resetAnswer() {
       this.answer = {
         id: undefined,
-        answer: ''
+        answer: '',
+        is_top: ''
       }
     },
     handleCreate() {
@@ -146,6 +163,7 @@ export default {
     },
     handleUpdate(row) {
       this.answer = Object.assign({}, row) // copy obj
+      this.answer.is_top = this.answer.is_top + ''
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
       this.$nextTick(() => {

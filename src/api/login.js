@@ -11,11 +11,18 @@ export function login(username, password) {
   })
 }
 
-export function getInfo(token) {
+export function getOfficeInfo(token) {
   return request({
-    url: '/user/info',
+    url: '/Office/check',
     method: 'get',
     params: { token }
+  })
+}
+
+export function isAdmin() {
+  return request({
+    url: '/User/checkadmin',
+    method: 'get'
   })
 }
 

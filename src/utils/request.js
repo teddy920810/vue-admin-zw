@@ -15,7 +15,7 @@ service.interceptors.request.use(
     console.log(store.getters.token)
     if (store.getters.token) {
       config.headers['X-Token'] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
-      config.headers['token'] = '8AF006AEE0E8CB2D714D468192296C5E'
+      config.headers['token'] = getToken()
     }
     return config
   },

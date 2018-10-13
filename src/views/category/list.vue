@@ -40,7 +40,7 @@
         <el-form-item label="名称" prop="name">
           <el-input v-model="category.name"/>
         </el-form-item>
-        <el-form-item label="类别" prop="type">
+        <el-form-item v-if="dialogStatus=='create'" label="类别" prop="type">
           <el-select v-model="category.type" placeholder="请选择类型">
             <el-option label="图文" value="1">图文</el-option>
             <el-option label="问答" value="2">问答</el-option>
