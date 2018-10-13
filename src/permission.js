@@ -39,11 +39,7 @@ router.beforeEach((to, from, next) => {
             next()
           } else {
             store.dispatch('GetOfficeInfo').then(res => { // 政务号
-              if (!res.data) {
-                next({ path: '/' })
-              } else {
-                next()
-              }
+              next()
             })
           }
         } else {

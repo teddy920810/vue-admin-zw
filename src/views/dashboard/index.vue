@@ -24,7 +24,6 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取消</el-button>
         <el-button type="primary" @click="saveData">保存</el-button>
       </div>
     </el-dialog>
@@ -83,7 +82,6 @@ export default {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           bindGovernment(this.government).then(() => {
-            this.getList()
             this.dialogFormVisible = false
             this.$notify({
               title: '成功',

@@ -26,7 +26,7 @@
           {{ scope.row.title }}
         </template>
       </el-table-column>
-      <el-table-column label="是否置顶" align="center">
+      <el-table-column label="是否置顶" align="center" width="80">
         <template slot-scope="scope">
           <el-tag>{{ scope.row.is_top | topFilter }}</el-tag>
         </template>
@@ -36,14 +36,19 @@
           <el-tag>{{ scope.row.show_first_image | imgFilter }}</el-tag>
         </template>
       </el-table-column>
+      <el-table-column align="center" label="创建时间">
+        <template slot-scope="scope">
+          {{ scope.row.create_time | timeFilter }}
+        </template>
+      </el-table-column>
       <el-table-column align="center" label="操作" width="300">
         <template slot-scope="scope">
-          <el-button type="info" size="small" @click="handleImgDetail(scope.row)">查看详情</el-button>
+          <el-button type="info" size="mini" @click="handleImgDetail(scope.row)">查看详情</el-button>
           <router-link :to="'/picart/comment/'+scope.row.id">
-            <el-button type="primary" size="small">评论管理</el-button>
+            <el-button type="primary" size="mini">评论管理</el-button>
           </router-link>
-          <el-button type="primary" size="small" @click="handleUpdate(scope.row)">编辑</el-button>
-          <el-button type="danger" size="small" icon="el-icon-delete" circle @click="deleteData(scope.row)"/>
+          <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
+          <el-button type="danger" size="mini" icon="el-icon-delete" circle @click="deleteData(scope.row)"/>
         </template>
       </el-table-column>
     </el-table>
@@ -105,10 +110,26 @@
       </div>
     </el-dialog>
     <el-dialog :visible.sync="dialogDetailVisible" title="图文详情" width="60%">
-      <div>{{ imgTextDetail.title }}</div>
-      <div>{{ imgTextDetail.office_name }}</div>
-      <div>{{ imgTextDetail.likes }}</div>
-      <div v-html="imgTextDetail.content">{{ imgTextDetail.content }}</div>
+      <el-form label-position="left" label-width="120px" style="margin-left:50px;">
+        <el-form-item label="标题">
+          <span>{{ imgTextDetail.title }}</span>
+        </el-form-item>
+      </el-form>
+      <el-form label-position="left" label-width="120px" style="margin-left:50px;">
+        <el-form-item label="政务号">
+          <span>{{ imgTextDetail.office_name }}</span>
+        </el-form-item>
+      </el-form>
+      <el-form label-position="left" label-width="120px" style="margin-left:50px;">
+        <el-form-item label="点赞数">
+          <span>{{ imgTextDetail.likes }}</span>
+        </el-form-item>
+      </el-form>
+      <el-form label-position="left" label-width="120px" style="margin-left:50px;">
+        <el-form-item label="标题" prop="title">
+          <div v-html="imgTextDetail.content">{{ imgTextDetail.content }}</div>
+        </el-form-item>
+      </el-form>
     </el-dialog>
   </div>
 </template>
