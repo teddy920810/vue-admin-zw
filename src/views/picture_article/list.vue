@@ -9,12 +9,11 @@
       v-loading="listLoading"
       :data="list"
       element-loading-text="Loading"
-      border
       fit
       highlight-current-row>
-      <el-table-column label="封面图" width="200">
+      <el-table-column label="封面图" width="110">
         <template slot-scope="scope">
-          <img :src="GLOBAL.servicePath + scope.row.first_image" width="180" height="100">
+          <img :src="GLOBAL.servicePath + scope.row.first_image" width="100" height="50">
         </template>
       </el-table-column>
       <el-table-column label="标题" align="center">
@@ -22,15 +21,21 @@
           {{ scope.row.title }}
         </template>
       </el-table-column>
-      <el-table-column label="是否显示图片" align="center">
+      <el-table-column label="是否置顶" align="center">
         <template slot-scope="scope">
-          {{ scope.row.show_first_image | imgFilter }}
+          <el-tag>{{ scope.row.is_top | topFilter }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="操作" width="183">
+      <el-table-column label="封面图显示" align="center">
         <template slot-scope="scope">
+          <el-tag>{{ scope.row.show_first_image | imgFilter }}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="操作" width="300">
+        <template slot-scope="scope">
+          <el-button type="info" size="small" @click="handleImgDetail(scope.row)">查看详情</el-button>
           <router-link :to="'/picart/comment/'+scope.row.id">
-            <el-button type="primary" size="small">评论</el-button>
+            <el-button type="primary" size="small">评论管理</el-button>
           </router-link>
           <el-button type="primary" size="small" @click="handleUpdate(scope.row)">编辑</el-button>
           <el-button type="danger" size="small" icon="el-icon-delete" circle @click="deleteData(scope.row)"/>
@@ -94,6 +99,12 @@
         <el-button v-else type="primary" @click="updateData">保存</el-button>
       </div>
     </el-dialog>
+    <el-dialog :visible.sync="dialogDetailVisible" title="图文详情" width="60%">
+      <div>{{ imgTextDetail.title }}</div>
+      <div>{{ imgTextDetail.office_name }}</div>
+      <div>{{ imgTextDetail.likes }}</div>
+      <div v-html="imgTextDetail.content">{{ imgTextDetail.content }}</div>
+    </el-dialog>
   </div>
 </template>
 
@@ -103,11 +114,10 @@ import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 import { quillRedefine } from 'vue-quill-editor-upload'
 import { quillEditor } from 'vue-quill-editor'
-import { getList, addData, editData, deleteData, getCateList } from '@/api/imagetext'
+import { getList, addData, editData, deleteData, getImgDetail, getCateList } from '@/api/imagetext'
 import { getToken } from '@/utils/auth'
 
-//var token = getToken()
-var token = '8AF006AEE0E8CB2D714D468192296C5E'
+var token = getToken()
 export default {
   components: {
     quillEditor, quillRedefine
@@ -120,6 +130,13 @@ export default {
         2: '显示大图'
       }
       return showMap[show]
+    },
+    topFilter(top) {
+      const topMap = {
+        0: '不置顶',
+        1: '置顶'
+      }
+      return topMap[top]
     }
   },
   data() {
@@ -169,7 +186,17 @@ export default {
           { required: true, message: '请选择', trigger: 'change' }
         ]
       },
-      selectOption: []
+      selectOption: [],
+      dialogDetailVisible: false,
+      imgTextDetail: {
+        title: '',
+        content: '',
+        user_id: '',
+        create_time: '',
+        likes: '',
+        office_name: '',
+        office_index: ''
+      }
     }
   },
   created() {
@@ -181,7 +208,6 @@ export default {
         uploadConfig: {
           action: this.GLOBAL.uploadFileUrl,
           res: (response) => {
-            console.log(response)
             return this.GLOBAL.servicePath + response.data
           },
           name: 'file'
@@ -274,6 +300,13 @@ export default {
           type: 'success',
           duration: 2000
         })
+      })
+    },
+    handleImgDetail(row) {
+      const param = { id: row.id }
+      getImgDetail(param).then(response => {
+        this.imgTextDetail = response.data
+        this.dialogDetailVisible = true
       })
     },
     handleFilter() {

@@ -9,7 +9,6 @@
       v-loading="listLoading"
       :data="list"
       element-loading-text="Loading"
-      border
       fit
       highlight-current-row>
       <el-table-column label="类别名称">
@@ -117,7 +116,7 @@ export default {
       this.listLoading = true
       getList(this.listQuery).then(response => {
         this.list = response.data.list
-        this.order_index_option = response.data.total + 1
+        this.order_index_option = response.data.total
         this.listLoading = false
       })
     },
@@ -126,7 +125,7 @@ export default {
         id: undefined,
         name: '',
         type: undefined,
-        order_index: this.order_index_option
+        order_index: this.order_index_option + 1
       }
     },
     handleCreate() {
@@ -140,7 +139,6 @@ export default {
     createData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          console.log(this.category)
           addData(this.category).then(() => {
             this.getList()
             this.dialogFormVisible = false

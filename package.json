@@ -19,6 +19,7 @@
     "normalize.css": "7.0.0",
     "nprogress": "0.2.0",
     "vue": "2.5.17",
+    "vue-moment": "^4.0.0",
     "vue-quill-editor": "^3.0.6",
     "vue-quill-editor-upload": "^1.1.0",
     "vue-router": "3.0.1",

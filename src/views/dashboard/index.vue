@@ -2,8 +2,13 @@
   <div class="dashboard-container">
     <!--<div class="dashboard-text">name:{{ name }}</div>
     <div class="dashboard-text">roles:<span v-for="role in roles" :key="role">{{ role }}</span></div>-->
-    问政组件管理平台
-    <el-dialog :visible.sync="dialogFormVisible" title="完善政务号信息">
+    政務组件管理平台
+    <el-dialog
+      :visible.sync="dialogFormVisible"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      :show-close="false"
+      title="完善政务号信息">
       <el-form ref="dataForm" :rules="rules" :model="government" label-position="left" label-width="120px" style="width: 400px; margin-left:50px;">
         <el-form-item label="名称" prop="office_name">
           <el-input v-model="government.office_name"/>

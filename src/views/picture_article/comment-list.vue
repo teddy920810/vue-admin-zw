@@ -1,19 +1,30 @@
 <template>
   <div class="app-container">
-    <el-table :data="list" border fit highlight-current-row>
+    <el-table :data="list" fit highlight-current-row>
+      <el-table-column label="用户">
+        <template slot-scope="scope">
+          <img :src="GLOBAL.servicePath + scope.row.member_head_pic" width="50" height="50">
+          <span>{{ scope.row.member_nickname }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="评论">
         <template slot-scope="scope">
           <span>{{ scope.row.content }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="收藏">
+      <el-table-column label="被评论内容">
+        <template slot-scope="scope">
+          <span v-if="scope.row.reply_id != 0">{{ scope.row.reply_content }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="被赞数">
         <template slot-scope="scope">
           <span>{{ scope.row.likes }}</span>
         </template>
       </el-table-column>
       <el-table-column label="评论时间">
         <template slot-scope="scope">
-          <span>{{ scope.row.create_time }}</span>
+          <span>{{ scope.row.create_time | timeFilter }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="200">

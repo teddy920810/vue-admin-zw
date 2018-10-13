@@ -32,6 +32,14 @@ export function deleteData(data) {
   })
 }
 
+export function getImgDetail(params) {
+  return request({
+    url: '/Imagetext/detail',
+    method: 'get',
+    params
+  })
+}
+
 export function getCateList(params) {
   return request({
     url: '/Category/list',

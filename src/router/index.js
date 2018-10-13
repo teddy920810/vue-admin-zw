@@ -81,19 +81,6 @@ export const asyncRouterMap = [
     meta: { roles: ['ADMIN'] }
   },
   {
-    path: '/region',
-    component: Layout,
-    children: [
-      {
-        path: 'list',
-        name: '地区',
-        component: () => import('@/views/region/list'),
-        meta: { title: '地区', icon: 'form', roles: ['ADMIN'] }
-      }
-    ],
-    meta: { roles: ['ADMIN'] }
-  },
-  {
     path: '/category',
     component: Layout,
     children: [
@@ -102,6 +89,19 @@ export const asyncRouterMap = [
         name: '类别',
         component: () => import('@/views/category/list'),
         meta: { title: '类别', icon: 'form', roles: ['ADMIN'] }
+      }
+    ],
+    meta: { roles: ['ADMIN'] }
+  },
+  {
+    path: '/config',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: '政务指数配置',
+        component: () => import('@/views/config/index'),
+        meta: { title: '政务指数配置', icon: 'form', roles: ['ADMIN'] }
       }
     ],
     meta: { roles: ['ADMIN'] }

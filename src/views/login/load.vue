@@ -24,21 +24,25 @@ export default {
           type: 'error',
           duration: 5 * 1000
         })
-      }
-      const token = location.href.split('?')[1] && location.href.split('?')[1].split('=')[1]
-      console.log(location.href.split('?'))
-      this.token = token
-      if (this.token) {
-        this.$store.dispatch('Login', this.token).then(() => {
-          this.$router.push({ path: '/' })
-        }).catch(() => {
-        })
       } else {
-        Message({
-          message: 'token获取失败',
-          type: 'error',
-          duration: 5 * 1000
-        })
+        const params = location.href.split('?')[1].split('&')
+        for (const item in params) {
+          if (params[item].indexOf('token') > -1) {
+            this.token = params[item].split('=')[1]
+          }
+        }
+        if (this.token) {
+          this.$store.dispatch('Login', this.token).then(() => {
+            this.$router.push({ path: '/' })
+          }).catch(() => {
+          })
+        } else {
+          Message({
+            message: 'token获取失败',
+            type: 'error',
+            duration: 5 * 1000
+          })
+        }
       }
     }
   }

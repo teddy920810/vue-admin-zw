@@ -45,7 +45,6 @@ export default {
       //console.log('active item:', val);
     },
     handleValueChang(val) {
-      console.log('the val:', val)
       this.$emit('selectRegion', val)
     },
     getRegionJson() {

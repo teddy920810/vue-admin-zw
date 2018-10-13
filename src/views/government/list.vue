@@ -2,13 +2,13 @@
   <div class="app-container">
     <div class="filter-container">
       <el-input v-model="listQuery.office_name" placeholder="搜索名称" class="filter-item" style="width: 200px;" @keyup.enter.native="handleFilter"/>
+      <!--<region :select-option="selectOption" class="filter-item" @selectRegion="searchRegion"/>-->
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
     </div>
     <el-table
       v-loading="listLoading"
       :data="list"
       element-loading-text="Loading"
-      border
       fit
       highlight-current-row>
       <el-table-column label="用户名">
@@ -34,6 +34,11 @@
       <el-table-column label="政务号描述">
         <template slot-scope="scope">
           {{ scope.row.office_desc }}
+        </template>
+      </el-table-column>
+      <el-table-column label="地区">
+        <template slot-scope="scope">
+          {{ scope.row.office_province }}{{ scope.row.office_city }}
         </template>
       </el-table-column>
       <el-table-column align="center" label="操作">
@@ -172,6 +177,10 @@ export default {
       console.log(data)
       this.government.office_province_id = data[0]
       this.government.office_city_id = data[1]
+    },
+    searchRegion(data) {
+      this.listQuery.province_id = data[0]
+      this.listQuery.city_id = data[1]
     }
   }
 }

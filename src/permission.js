@@ -21,12 +21,10 @@ router.beforeEach((to, from, next) => {
       NProgress.done()
     } else {
       if (store.getters.roles.length === 0) {
-        console.log(router)
         store.dispatch('GetUserRole').then(res => { // 检查是否admin
           const roles = res // ['ADMIN','OFFICE']
           store.dispatch('GenerateRoutes', { roles }).then(() => { // 根据roles生成可访问的路由表
             router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表
-            console.log(router)
             next({ ...to, replace: true })
           })
         }).catch((err) => {
@@ -37,7 +35,7 @@ router.beforeEach((to, from, next) => {
         })
       } else {
         if (hasPermission(store.getters.roles, to.meta.roles)) {
-          if (to.path === '/government' || store.getters.name ) {
+          if (to.path === '/government' || store.getters.name) {
             next()
           } else {
             store.dispatch('GetOfficeInfo').then(res => { // 政务号
@@ -52,7 +50,6 @@ router.beforeEach((to, from, next) => {
           next({ path: '/401', replace: true, query: { noGoBack: true }})
         }
       }
-      next()
     }
   } else {
     if (whiteList.indexOf(to.path) !== -1) {

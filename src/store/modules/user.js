@@ -1,4 +1,4 @@
-import { logout, getOfficeInfo, isAdmin } from '@/api/login'
+import { getOfficeInfo, isAdmin } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 
 const user = {
@@ -31,6 +31,7 @@ const user = {
       return new Promise((resolve, reject) => {
         setToken(TOKEN)
         commit('SET_TOKEN', TOKEN)
+        commit('SET_AVATAR', 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif')
         resolve()
       })
     },
