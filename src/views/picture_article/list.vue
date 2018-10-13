@@ -16,6 +16,11 @@
           <img :src="GLOBAL.servicePath + scope.row.first_image" width="100" height="50">
         </template>
       </el-table-column>
+      <el-table-column label="政务号" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.office_name }}
+        </template>
+      </el-table-column>
       <el-table-column label="标题" align="center">
         <template slot-scope="scope">
           {{ scope.row.title }}

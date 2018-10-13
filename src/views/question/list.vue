@@ -40,8 +40,14 @@
           {{ scope.row.together_ask }}
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="410">
+      <el-table-column label="操作" width="380">
         <template slot-scope="scope">
+          <span style="width: 60px">
+            <el-button v-if="scope.row.status==0 || scope.row.status==2" type="success" size="small" round @click="auditQ(scope.row, 1)">通过</el-button>
+          </span>
+          <span style="width: 60px">
+            <el-button v-if="scope.row.status==0 || scope.row.status==1" type="danger" size="small" round @click="auditQ(scope.row, 2)">拒绝</el-button>
+          </span>
           <span style="width: 80px">
             <router-link :to="'/question/comment/'+scope.row.id">
               <el-button type="primary" size="small">评论管理</el-button>
@@ -53,12 +59,6 @@
           </span>
           <span style="width: 30px">
             <el-button type="danger" size="small" icon="el-icon-delete" circle @click="deleteData(scope.row)"/>
-          </span>
-          <span style="width: 80px">
-            <el-button v-if="scope.row.status==0 || scope.row.status==2" type="success" size="small" round @click="auditQ(scope.row, 1)">审核通过</el-button>
-          </span>
-          <span style="width: 80px">
-            <el-button v-if="scope.row.status==0 || scope.row.status==1" type="danger" size="small" round @click="auditQ(scope.row, 2)">审核拒绝</el-button>
           </span>
         </template>
       </el-table-column>
@@ -77,14 +77,14 @@
     <!-- 回答 -->
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="answer" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
-        <el-form-item label="回答" prop="answer">
-          <el-input v-model="answer.answer"/>
-        </el-form-item>
-        <el-form-item label="是否置顶" prop="is_top">
+        <el-form-item label="是否置顶" prop="is_top" label-width="100px">
           <el-select v-model="answer.is_top" placeholder="请选择">
             <el-option label="不置顶" value="0"/>
             <el-option label="置顶" value="1"/>
           </el-select>
+        </el-form-item>
+        <el-form-item label="回答" prop="answer" label-width="100px">
+          <el-input v-model="answer.answer" type="textarea" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
