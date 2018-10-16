@@ -1,9 +1,9 @@
 import { getOfficeInfo, isAdmin } from '@/api/login'
-import { setToken, removeToken } from '@/utils/auth'
+import { getToken, setToken, removeToken } from '@/utils/auth'
 
 const user = {
   state: {
-    token: '',
+    token: getToken(),
     name: '',
     avatar: '',
     roles: []
@@ -38,7 +38,7 @@ const user = {
     // 从localStorage获取token
     GetToken({ commit }) {
       const TOKEN_KEY = 'token'
-      return window.localStorage.getItem(TOKEN_KEY || '')
+      return window.localStorage.getItem(TOKEN_KEY)
     },
     GetUserRole({ commit, state }) {
       return new Promise((resolve, reject) => {
