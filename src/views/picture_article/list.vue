@@ -99,6 +99,9 @@
             <i v-else class="el-icon-plus avatar-uploader-icon"/>
           </el-upload>
         </el-form-item>
+        <el-form-item label="纯文本内容" prop="pure_content">
+          <el-input v-model="picart.pure_content"/>
+        </el-form-item>
         <el-form-item label="内容" prop="content" style="height: 280px">
           <quill-editor ref="myQuillEditor" v-model="picart.content" :options="editorOption" style="height: 200px"/>
         </el-form-item>
@@ -126,7 +129,12 @@
         </el-form-item>
       </el-form>
       <el-form label-position="left" label-width="120px" style="margin-left:50px;">
-        <el-form-item label="标题" prop="title">
+        <el-form-item label="纯文本内容">
+          <span>{{ imgTextDetail.pure_content }}</span>
+        </el-form-item>
+      </el-form>
+      <el-form label-position="left" label-width="120px" style="margin-left:50px;">
+        <el-form-item label="内容" prop="title">
           <div v-html="imgTextDetail.content">{{ imgTextDetail.content }}</div>
         </el-form-item>
       </el-form>
@@ -183,7 +191,8 @@ export default {
         category_id: '',
         first_image: '',
         show_first_image: '',
-        is_top: ''
+        is_top: '',
+        pure_content: ''
       },
       dialogFormVisible: false,
       dialogStatus: '',
@@ -210,6 +219,9 @@ export default {
         ],
         is_top: [
           { required: true, message: '请选择', trigger: 'change' }
+        ],
+        pure_content: [
+          { required: true, message: '请输入', trigger: 'blur' }
         ]
       },
       selectOption: [],
@@ -221,7 +233,8 @@ export default {
         create_time: '',
         likes: '',
         office_name: '',
-        office_index: ''
+        office_index: '',
+        pure_content: ''
       }
     }
   },
@@ -263,7 +276,8 @@ export default {
         category_id: '',
         first_image: '',
         show_first_image: '',
-        is_top: ''
+        is_top: '',
+        pure_content: ''
       }
     },
     handleCreate() {

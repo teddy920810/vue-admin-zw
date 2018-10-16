@@ -35,14 +35,14 @@ export default {
           label: '杭州'
         }]
       }]
-    };
+    }
   },
   created() {
     this.getRegionJson()
   },
   methods: {
     handleItemChange(val) {
-      //console.log('active item:', val);
+      // console.log('active item:', val);
     },
     handleValueChang(val) {
       this.$emit('selectRegion', val)

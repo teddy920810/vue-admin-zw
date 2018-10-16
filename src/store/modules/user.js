@@ -1,9 +1,9 @@
 import { getOfficeInfo, isAdmin } from '@/api/login'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { setToken, removeToken } from '@/utils/auth'
 
 const user = {
   state: {
-    token: getToken(),
+    token: '',
     name: '',
     avatar: '',
     roles: []
@@ -34,6 +34,11 @@ const user = {
         commit('SET_AVATAR', 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif')
         resolve()
       })
+    },
+    // 从localStorage获取token
+    GetToken({ commit }) {
+      const TOKEN_KEY = 'token'
+      return window.localStorage.getItem(TOKEN_KEY || '')
     },
     GetUserRole({ commit, state }) {
       return new Promise((resolve, reject) => {

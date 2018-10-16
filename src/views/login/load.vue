@@ -18,32 +18,25 @@ export default {
   },
   methods: {
     handleLogin() {
-      if (location.href.indexOf('token') === -1) {
+      this.$store.dispatch('GetToken').then(res => {
+        if (res) {
+          this.$store.dispatch('Login', res).then(() => {
+            this.$router.push({ path: '/' })
+          }).catch(() => {
+            Message({
+              message: 'token存储失败',
+              type: 'error',
+              duration: 5 * 1000
+            })
+          })
+        }
+      }).catch(() => {
         Message({
           message: 'token获取失败',
           type: 'error',
           duration: 5 * 1000
         })
-      } else {
-        const params = location.href.split('?')[1].split('&')
-        for (const item in params) {
-          if (params[item].indexOf('token') > -1) {
-            this.token = params[item].split('=')[1]
-          }
-        }
-        if (this.token) {
-          this.$store.dispatch('Login', this.token).then(() => {
-            this.$router.push({ path: '/' })
-          }).catch(() => {
-          })
-        } else {
-          Message({
-            message: 'token获取失败',
-            type: 'error',
-            duration: 5 * 1000
-          })
-        }
-      }
+      })
     }
   }
 }
