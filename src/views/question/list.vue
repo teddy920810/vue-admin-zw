@@ -52,7 +52,7 @@
               <el-button type="primary" size="mini">评论管理</el-button>
             </router-link>
             <el-button v-if="scope.row.answer==''" type="primary" size="mini" @click="handleUpdate(scope.row)">回答</el-button>
-            <el-button v-else type="primary" size="small" @click="handleUpdate(scope.row)">修改回答</el-button>
+            <el-button v-else type="primary" size="mini" @click="handleUpdate(scope.row)">修改回答</el-button>
           </div>
           <div>
             <el-button type="danger" size="mini" icon="el-icon-delete" circle @click="deleteData(scope.row)"/>
