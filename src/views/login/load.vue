@@ -29,6 +29,12 @@ export default {
               duration: 5 * 1000
             })
           })
+        } else {
+          Message({
+            message: 'token获取失败',
+            type: 'error',
+            duration: 5 * 1000
+          })
         }
       }).catch(() => {
         Message({

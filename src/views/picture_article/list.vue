@@ -191,7 +191,7 @@ export default {
         category_id: '',
         first_image: '',
         show_first_image: '',
-        is_top: '',
+        is_top: ''
         // pure_content: ''
       },
       dialogFormVisible: false,
@@ -233,7 +233,7 @@ export default {
         create_time: '',
         likes: '',
         office_name: '',
-        office_index: '',
+        office_index: ''
         // pure_content: ''
       }
     }
@@ -276,7 +276,7 @@ export default {
         category_id: '',
         first_image: '',
         show_first_image: '',
-        is_top: '',
+        is_top: ''
         // pure_content: ''
       }
     },

@@ -32,7 +32,7 @@ const user = {
         setToken(TOKEN)
         commit('SET_TOKEN', TOKEN)
         commit('SET_AVATAR', 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif')
-        resolve()
+        resolve(TOKEN)
       })
     },
     // 从localStorage获取token

@@ -46,7 +46,7 @@ service.interceptors.response.use(
   error => {
     console.log('err' + error) // for debug
     Message({
-      message: error.msg,
+      message: '接口异常',
       type: 'error',
       duration: 5 * 1000
     })
