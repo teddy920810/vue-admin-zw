@@ -32,7 +32,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { bindGovernment } from '@/api/government'
+import { initGovernment } from '@/api/government'
 import Region from '../region/index.vue'
 
 export default {
@@ -81,7 +81,7 @@ export default {
     saveData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          bindGovernment(this.government).then(() => {
+          initGovernment(this.government).then(() => {
             this.dialogFormVisible = false
             this.$notify({
               title: '成功',

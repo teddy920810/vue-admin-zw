@@ -13,7 +13,7 @@
       highlight-current-row>
       <el-table-column label="封面图" width="110">
         <template slot-scope="scope">
-          <img :src="GLOBAL.servicePath + scope.row.first_image" width="100" height="50">
+          <img :src="GLOBAL.fileBaseUrl + scope.row.first_image" width="100" height="50">
         </template>
       </el-table-column>
       <el-table-column label="政务号" align="center">
@@ -95,7 +95,7 @@
             :action="GLOBAL.uploadFileUrl"
             :headers="myHeader"
             class="avatar-uploader">
-            <img v-if="picart.first_image" :src="GLOBAL.servicePath+picart.first_image" class="avatar">
+            <img v-if="picart.first_image" :src="GLOBAL.fileBaseUrl+picart.first_image" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"/>
           </el-upload>
         </el-form-item>
@@ -247,7 +247,7 @@ export default {
         uploadConfig: {
           action: this.GLOBAL.uploadFileUrl,
           res: (response) => {
-            return this.GLOBAL.servicePath + response.data
+            return this.GLOBAL.fileBaseUrl + response.data
           },
           name: 'file'
         }

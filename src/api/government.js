@@ -15,3 +15,11 @@ export function bindGovernment(data) {
     data
   })
 }
+
+export function initGovernment(data) {
+  return request({
+    url: '/Office/init',
+    method: 'post',
+    data
+  })
+}

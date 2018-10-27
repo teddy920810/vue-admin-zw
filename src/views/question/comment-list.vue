@@ -3,7 +3,7 @@
     <el-table :data="list" fit highlight-current-row>
       <el-table-column label="用户">
         <template slot-scope="scope">
-          <img :src="GLOBAL.servicePath + scope.row.member_head_pic" width="50" height="50">
+          <img :src="GLOBAL.fileBaseUrl + scope.row.member_head_pic" width="50" height="50">
           <span>{{ scope.row.member_nickname }}</span>
         </template>
       </el-table-column>
