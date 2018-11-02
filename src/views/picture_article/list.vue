@@ -124,8 +124,18 @@
         </el-form-item>
       </el-form>
       <el-form label-position="left" label-width="120px" style="margin-left:50px;">
+        <el-form-item label="政务号指数">
+          <span>{{ imgTextDetail.office_index }}</span>
+        </el-form-item>
+      </el-form>
+      <el-form label-position="left" label-width="120px" style="margin-left:50px;">
         <el-form-item label="点赞数">
           <span>{{ imgTextDetail.likes }}</span>
+        </el-form-item>
+      </el-form>
+      <el-form label-position="left" label-width="120px" style="margin-left:50px;">
+        <el-form-item label="发布时间">
+          <span>{{ imgTextDetail.create_time | timeFilter }}</span>
         </el-form-item>
       </el-form>
       <!--<el-form label-position="left" label-width="120px" style="margin-left:50px;">
