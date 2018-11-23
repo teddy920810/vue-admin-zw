@@ -69,7 +69,7 @@ export const asyncRouterMap = [
         path: 'index',
         name: '问答管理',
         component: () => import('@/views/question/list'),
-        meta: { title: '问答管理', icon: 'form', roles: ['QUESTION_LIST'] }
+        meta: { title: '问答管理', icon: 'form', roles: ['QUESTION_MANAGE'] }
       },
       {
         path: 'comment/:qu_id',
@@ -129,7 +129,7 @@ export const asyncRouterMap = [
         path: 'list',
         name: '图文管理',
         component: () => import('@/views/picture_article/list'),
-        meta: { title: '图文管理', icon: 'form', roles: ['IMAGE_TEXT_LIST'] }
+        meta: { title: '图文管理', icon: 'form', roles: ['IMAGE_TEXT_MANAGE'] }
       },
       {
         path: 'comment/:pa_id',

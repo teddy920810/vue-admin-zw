@@ -16,10 +16,12 @@ import '@/permission' // permission control
 
 import moment from 'moment'
 import Global from './utils/global.vue'
+import { hasButton } from '@/utils/index'
 
 Vue.use(ElementUI)
 Vue.prototype.GLOBAL = Global
 Vue.config.productionTip = false
+Vue.prototype.hasButton = hasButton
 
 Vue.filter('timeFilter', function(value, formatString) {
   formatString = formatString || 'YYYY-MM-DD HH:mm:ss'

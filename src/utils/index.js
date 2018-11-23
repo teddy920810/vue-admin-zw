@@ -1,3 +1,5 @@
+import Vue from "vue";
+
 /**
  * Created by jiachenpan on 16/11/18.
  */
@@ -67,4 +69,8 @@ export function formatTime(time, option) {
       '分'
     )
   }
+}
+
+export function hasButton(buttons, permissions) {
+  return buttons.some(button => permissions.indexOf(button.symbol))
 }
