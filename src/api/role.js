@@ -47,9 +47,9 @@ export function editUserRole(data) {
   })
 }
 
-export function getUserRoleInfoByUsername(user_name) {
+export function getUserRoleInfoByUserId(user_id) {
   return request({
-    url: '/Userrole/list?page=1&page_size=1&user_name=' + user_name,
+    url: '/User/roles?user_id=' + user_id,
     method: 'get'
   })
 }

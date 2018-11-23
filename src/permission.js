@@ -7,7 +7,7 @@ import { getToken } from '@/utils/auth' // 验权
 
 // permission judge function
 function hasPermission(roles, permissionRoles) {
-  if (roles.indexOf('ADMIN') >= 0) return true
+  if (roles.indexOf('*') >= 0) return true
   if (!permissionRoles) return true
   return roles.some(role => permissionRoles.indexOf(role) >= 0)
 }

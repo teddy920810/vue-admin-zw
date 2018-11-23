@@ -19,9 +19,9 @@ export function getOfficeInfo(token) {
   })
 }
 
-export function isAdmin() {
+export function getUserPermission() {
   return request({
-    url: '/User/checkadmin',
+    url: '/User/permissions',
     method: 'get'
   })
 }

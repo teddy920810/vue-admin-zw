@@ -2,10 +2,8 @@
   <el-tree
     ref="per"
     :data="permissionData"
-    :default-expanded-keys="defaultCheckKeys"
     :default-checked-keys="defaultCheckKeys"
     :props="defaultProps"
-    :check-strictly="true"
     show-checkbox
     node-key="id"
     @check="checkVal"/>
@@ -26,7 +24,8 @@ export default {
       permissionData: [],
       defaultProps: {
         children: 'children',
-        label: 'name'
+        label: 'name',
+        id: 'id'
       },
       defaultCheckKeys: this.defaultCheckOption
     }
@@ -34,11 +33,11 @@ export default {
   watch: {
     defaultCheckOption(val) {
       this.defaultCheckKeys = val
+      this.$refs.per.setCheckedKeys(this.defaultCheckKeys)
     }
   },
   created() {
     this.getPermissionJson()
-    console.log(this.permissionData)
   },
   methods: {
     getPermissionJson() {

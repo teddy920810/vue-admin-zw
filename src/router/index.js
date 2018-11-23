@@ -36,20 +36,6 @@ export const constantRouterMap = [
       component: () => import('@/views/dashboard/index')
     }]
   },
-
-  {
-    path: '/role',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: '角色管理',
-        component: () => import('@/views/role/list'),
-        meta: { title: '角色管理', icon: 'form' }
-      }
-    ]
-  },
-
   { path: '*', redirect: '/', hidden: true }
 ]
 
@@ -61,21 +47,35 @@ export default new Router({
 
 export const asyncRouterMap = [
   {
+    path: '/role',
+    component: Layout,
+    meta: { roles: ['ROLE_MANAGE'] },
+    children: [
+      {
+        path: 'index',
+        name: '角色管理',
+        component: () => import('@/views/role/list'),
+        meta: { title: '角色管理', icon: 'form', roles: ['ROLE_MANAGE'] }
+      }
+    ]
+  },
+  {
     path: '/question',
     component: Layout,
     redirect: '/question/index',
+    meta: { roles: ['QUESTION_MANAGE'] },
     children: [
       {
         path: 'index',
         name: '问答管理',
         component: () => import('@/views/question/list'),
-        meta: { title: '问答管理', icon: 'form' }
+        meta: { title: '问答管理', icon: 'form', roles: ['QUESTION_LIST'] }
       },
       {
         path: 'comment/:qu_id',
         name: '问答评论',
         component: () => import('@/views/question/comment-list'),
-        meta: { title: '问答评论', icon: 'form' },
+        meta: { title: '问答评论', icon: 'form', roles: ['QUESTION_ANSWER'] },
         hidden: true
       }
     ]
@@ -88,10 +88,10 @@ export const asyncRouterMap = [
         path: 'index',
         name: '政务号',
         component: () => import('@/views/government/list'),
-        meta: { title: '政务号管理', icon: 'form', roles: ['ADMIN'] }
+        meta: { title: '政务号管理', icon: 'form', roles: ['OFFICE_MANAGE'] }
       }
     ],
-    meta: { roles: ['ADMIN'] }
+    meta: { roles: ['OFFICE_MANAGE'] }
   },
   {
     path: '/category',
@@ -101,10 +101,10 @@ export const asyncRouterMap = [
         path: 'list',
         name: '类别管理',
         component: () => import('@/views/category/list'),
-        meta: { title: '类别管理', icon: 'form', roles: ['ADMIN'] }
+        meta: { title: '类别管理', icon: 'form', roles: ['CATEGORY_MANAGE'] }
       }
     ],
-    meta: { roles: ['ADMIN'] }
+    meta: { roles: ['CATEGORY_MANAGE'] }
   },
   {
     path: '/config',
@@ -114,21 +114,22 @@ export const asyncRouterMap = [
         path: 'index',
         name: '政务指数配置',
         component: () => import('@/views/config/index'),
-        meta: { title: '政务指数配置', icon: 'form', roles: ['ADMIN'] }
+        meta: { title: '政务指数配置', icon: 'form', roles: ['OFFICE_INDEX_MANAGE'] }
       }
     ],
-    meta: { roles: ['ADMIN'] }
+    meta: { roles: ['OFFICE_INDEX_MANAGE'] }
   },
   {
     path: '/picart',
     component: Layout,
     redirect: '/picart/list',
+    meta: { roles: ['IMAGE_TEXT_MANAGE'] },
     children: [
       {
         path: 'list',
         name: '图文管理',
         component: () => import('@/views/picture_article/list'),
-        meta: { title: '图文管理', icon: 'form' }
+        meta: { title: '图文管理', icon: 'form', roles: ['IMAGE_TEXT_LIST'] }
       },
       {
         path: 'comment/:pa_id',

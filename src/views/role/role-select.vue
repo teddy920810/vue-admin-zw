@@ -1,5 +1,5 @@
 <template>
-  <el-select v-model="value" multiple placeholder="请选择角色" @change="change">
+  <el-select ref="select" v-model="value" multiple placeholder="请选择角色" @change="change">
     <el-option
       v-for="item in options"
       :key="item.id"
@@ -26,6 +26,7 @@ export default {
   watch: {
     defaultValue(val) {
       this.value = val
+      console.log(this.$refs.select)
     }
   },
   created() {

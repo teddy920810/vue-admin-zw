@@ -100,7 +100,7 @@
 
 <script>
 import { getSysUserList, bindGovernment } from '@/api/government'
-import { editUserRole, getUserRoleInfoByUsername } from '@/api/role'
+import { editUserRole, getUserRoleInfoByUserId } from '@/api/role'
 import Region from '../region/index.vue'
 import RoleSelect from '../role/role-select.vue'
 
@@ -180,9 +180,10 @@ export default {
       this.resetRoleGovernment()
       this.role_government.user_id = row.user_id
       this.role_government.office_name = row.office_name
-      getUserRoleInfoByUsername(row.user_name).then((res) => {
-        const { keys } = Object
-        this.role_government.role_ids = res.data.list[0] ? keys(res.data.list[0].roles) : []
+      getUserRoleInfoByUserId(this.role_government.user_id).then((res) => {
+        res.data.forEach((role) => {
+          this.role_government.role_ids.push(role.id)
+        })
         this.dialogRoleFormVisible = true
       })
     },

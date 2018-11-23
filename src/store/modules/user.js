@@ -1,4 +1,4 @@
-import { getOfficeInfo, isAdmin } from '@/api/login'
+import { getOfficeInfo, getUserPermission } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 
 const user = {
@@ -42,14 +42,8 @@ const user = {
     },
     GetUserRole({ commit, state }) {
       return new Promise((resolve, reject) => {
-        isAdmin().then(response => {
-          const data = response.data
-          const roles = []
-          if (data) {
-            roles.push('ADMIN')
-          } else {
-            roles.push('OFFICE')
-          }
+        getUserPermission().then(response => {
+          const roles = response.data
           commit('SET_ROLES', roles)
           resolve(roles)
         }).catch(error => {
