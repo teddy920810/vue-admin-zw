@@ -158,7 +158,7 @@ import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 import { quillRedefine } from 'vue-quill-editor-upload'
 import { quillEditor } from 'vue-quill-editor'
-import { getList, addData, editData, deleteData, getImgDetail, getCateList } from '@/api/imagetext'
+import { getList, addData, editData, deleteData, getImgDetail, getImageCategoryList } from '@/api/imagetext'
 import { getToken } from '@/utils/auth'
 
 var token = getToken()
@@ -213,7 +213,7 @@ export default {
       rules: {
         title: [
           { required: true, message: '请输入', trigger: 'blur' },
-          { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' }
+          { min: 2, max: 50, message: '长度在 2 到 50 个字符', trigger: 'blur' }
         ],
         content: [
           { required: true, message: '请输入', trigger: 'blur' }
@@ -250,7 +250,7 @@ export default {
   },
   created() {
     this.getList()
-    this.getCategory()
+    this.getImageCategory()
     this.editorOption = quillRedefine(
       {
         // 图片上传的设置
@@ -265,8 +265,8 @@ export default {
     )
   },
   methods: {
-    getCategory() {
-      getCateList().then(response => {
+    getImageCategory() {
+      getImageCategoryList().then(response => {
         this.selectOption = response.data.list
       })
     },

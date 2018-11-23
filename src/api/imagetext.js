@@ -40,9 +40,9 @@ export function getImgDetail(params) {
   })
 }
 
-export function getCateList(params) {
+export function getImageCategoryList(params) {
   return request({
-    url: '/Category/list',
+    url: '/Category/imageCategory',
     method: 'get',
     params
   })
