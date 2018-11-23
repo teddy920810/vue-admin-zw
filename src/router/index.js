@@ -37,6 +37,19 @@ export const constantRouterMap = [
     }]
   },
 
+  {
+    path: '/role',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: '角色管理',
+        component: () => import('@/views/role/list'),
+        meta: { title: '角色管理', icon: 'form' }
+      }
+    ]
+  },
+
   { path: '*', redirect: '/', hidden: true }
 ]
 
@@ -54,9 +67,9 @@ export const asyncRouterMap = [
     children: [
       {
         path: 'index',
-        name: '问答',
+        name: '问答管理',
         component: () => import('@/views/question/list'),
-        meta: { title: '问答', icon: 'form' }
+        meta: { title: '问答管理', icon: 'form' }
       },
       {
         path: 'comment/:qu_id',
@@ -86,9 +99,9 @@ export const asyncRouterMap = [
     children: [
       {
         path: 'list',
-        name: '类别',
+        name: '类别管理',
         component: () => import('@/views/category/list'),
-        meta: { title: '类别', icon: 'form', roles: ['ADMIN'] }
+        meta: { title: '类别管理', icon: 'form', roles: ['ADMIN'] }
       }
     ],
     meta: { roles: ['ADMIN'] }
@@ -113,9 +126,9 @@ export const asyncRouterMap = [
     children: [
       {
         path: 'list',
-        name: '图文',
+        name: '图文管理',
         component: () => import('@/views/picture_article/list'),
-        meta: { title: '图文', icon: 'form' }
+        meta: { title: '图文管理', icon: 'form' }
       },
       {
         path: 'comment/:pa_id',

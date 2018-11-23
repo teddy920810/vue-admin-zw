@@ -41,9 +41,10 @@
           {{ scope.row.office_province }}{{ scope.row.office_city }}
         </template>
       </el-table-column>
-      <el-table-column align="center" label="操作">
+      <el-table-column label="操作" width="190">
         <template slot-scope="scope">
-          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleBindGovernment(scope.row)">编辑</el-button>
+          <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleBindGovernment(scope.row)">编辑</el-button>
+          <el-button v-if="scope.row.office_name" type="info" size="mini" @click="handleRoleGovernment(scope.row)">角色配置</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -79,15 +80,32 @@
         <el-button type="primary" @click="saveData">保存</el-button>
       </div>
     </el-dialog>
+    <!-- 角色配置 -->
+    <el-dialog :visible.sync="dialogRoleFormVisible" title="角色配置">
+      <el-form ref="dataRoleForm" :model="role_government" label-position="left" label-width="120px" style="width: 400px; margin-left:50px;">
+        <el-form-item label="名称">
+          <el-input v-model="role_government.office_name" :disabled="true"/>
+        </el-form-item>
+        <el-form-item label="角色">
+          <role-select :default-value="role_government.role_ids" @change="changeOpinion"/>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogRoleFormVisible = false">取消</el-button>
+        <el-button type="primary" @click="saveRoleData">保存</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { getSysUserList, bindGovernment } from '@/api/government'
+import { editUserRole, getUserRoleInfoByUsername } from '@/api/role'
 import Region from '../region/index.vue'
+import RoleSelect from '../role/role-select.vue'
 
 export default {
-  components: { Region },
+  components: { Region, RoleSelect },
   data() {
     return {
       list: null,
@@ -106,7 +124,13 @@ export default {
         office_province_id: '',
         office_city_id: ''
       },
+      role_government: {
+        user_id: undefined,
+        office_name: '',
+        role_ids: []
+      },
       dialogFormVisible: false,
+      dialogRoleFormVisible: false,
       rules: {
         office_name: [
           { required: true, message: '请输入', trigger: 'blur' },
@@ -145,6 +169,23 @@ export default {
         this.$refs['dataForm'].clearValidate()
       })
     },
+    resetRoleGovernment() {
+      this.role_government = {
+        user_id: undefined,
+        office_name: '',
+        role_ids: []
+      }
+    },
+    handleRoleGovernment(row) {
+      this.resetRoleGovernment()
+      this.role_government.user_id = row.user_id
+      this.role_government.office_name = row.office_name
+      getUserRoleInfoByUsername(row.user_name).then((res) => {
+        const { keys } = Object
+        this.role_government.role_ids = res.data.list[0] ? keys(res.data.list[0].roles) : []
+        this.dialogRoleFormVisible = true
+      })
+    },
     saveData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
@@ -159,6 +200,24 @@ export default {
             })
           })
         }
+      })
+    },
+    saveRoleData() {
+      this.$refs['dataRoleForm'].validate((valid) => {
+        if (valid) {
+          delete this.role_government.office_name
+          editUserRole(this.role_government).then(() => {
+            this.getList()
+            this.dialogRoleFormVisible = false
+            this.$notify({
+              title: '成功',
+              message: '角色配置成功',
+              type: 'success',
+              duration: 2000
+            })
+          })
+        }
+        console.log(this.role_government)
       })
     },
     handleFilter() {
@@ -181,6 +240,9 @@ export default {
     searchRegion(data) {
       this.listQuery.province_id = data[0]
       this.listQuery.city_id = data[1]
+    },
+    changeOpinion(val) {
+      this.role_government.role_ids = val
     }
   }
 }

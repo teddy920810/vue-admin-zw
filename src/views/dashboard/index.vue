@@ -2,7 +2,7 @@
   <div class="dashboard-container">
     <!--<div class="dashboard-text">name:{{ name }}</div>
     <div class="dashboard-text">roles:<span v-for="role in roles" :key="role">{{ role }}</span></div>-->
-    政務组件管理平台
+    澎湃新闻组件管理平台
     <el-dialog
       :visible.sync="dialogFormVisible"
       :close-on-click-modal="false"
