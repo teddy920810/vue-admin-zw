@@ -76,6 +76,11 @@ export default {
   },
   created() {
     this.dialogFormVisible = Object.is('', this.name)
+    if (this.roles.length === 0) {
+      console.log(this.roles)
+      console.log('111')
+      this.$router.push({ path: '/401' })
+    }
   },
   methods: {
     saveData() {

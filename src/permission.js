@@ -21,7 +21,7 @@ router.beforeEach((to, from, next) => {
         next({ path: '/' })
         NProgress.done()
       } else {
-        if (getToken() === res && store.getters.roles.length > 0) { // 如果localStorage的token与cookie的token相等
+        if (getToken() === res) { // 如果localStorage的token与cookie的token相等
           if (hasPermission(store.getters.roles, to.meta.roles)) {
             if (to.path === '/government' || store.getters.name) {
               next()
@@ -36,7 +36,7 @@ router.beforeEach((to, from, next) => {
         } else { // 如果localStorage的token与cookie的token不同
           store.dispatch('Login', res).then(res => { // 将从localStorage获取的token存在cookie里，模拟登录
             if (res) {
-              store.dispatch('GetUserRole').then(res => { // 检查是否admin
+              store.dispatch('GetUserRole').then(res => { // 获取权限
                 const roles = res // ['ADMIN','OFFICE']
                 store.dispatch('GenerateRoutes', { roles }).then(() => { // 根据roles生成可访问的路由表
                   router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表

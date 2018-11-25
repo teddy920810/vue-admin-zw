@@ -43,6 +43,7 @@ const user = {
     GetUserRole({ commit, state }) {
       return new Promise((resolve, reject) => {
         getUserPermission().then(response => {
+          alert('11111111111111')
           const roles = response.data
           commit('SET_ROLES', roles)
           resolve(roles)
