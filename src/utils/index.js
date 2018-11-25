@@ -71,6 +71,6 @@ export function formatTime(time, option) {
   }
 }
 
-export function hasButton(buttons, permissions) {
-  return buttons.some(button => permissions.indexOf(button.symbol))
+export function hasButton(button) {
+  return this.$store.state.user.roles.indexOf(button) > 0
 }

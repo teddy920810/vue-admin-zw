@@ -3,7 +3,7 @@
     <div class="filter-container">
       <el-input v-model="listQuery.title" placeholder="搜索名称" class="filter-item" style="width: 200px;" @keyup.enter.native="handleFilter"/>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
-      <el-button v-if="hasButton(buttons, $store.state.user.roles)" class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-plus" @click="handleCreate">添加</el-button>
+      <el-button v-if="hasButton('IMAGE_TEXT_ADD')" class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-plus" @click="handleCreate">添加</el-button>
     </div>
     <el-table
       v-loading="listLoading"
@@ -43,12 +43,12 @@
       </el-table-column>
       <el-table-column align="center" label="操作" width="300">
         <template slot-scope="scope">
-          <el-button type="info" size="mini" @click="handleImgDetail(scope.row)">查看详情</el-button>
+          <el-button v-if="hasButton('IMAGE_TEXT_DETAIL')" type="info" size="mini" @click="handleImgDetail(scope.row)">查看详情</el-button>
           <router-link :to="'/picart/comment/'+scope.row.id">
-            <el-button type="primary" size="mini">评论管理</el-button>
+            <el-button v-if="hasButton('IMAGE_TEXT_COMMENT')" type="primary" size="mini">评论管理</el-button>
           </router-link>
-          <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
-          <el-button type="danger" size="mini" icon="el-icon-delete" circle @click="deleteData(scope.row)"/>
+          <el-button v-if="hasButton('IMAGE_TEXT_EDIT')" type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
+          <el-button v-if="hasButton('IMAGE_TEXT_DEL')" type="danger" size="mini" icon="el-icon-delete" circle @click="deleteData(scope.row)"/>
         </template>
       </el-table-column>
     </el-table>
@@ -245,13 +245,7 @@ export default {
         office_name: '',
         office_index: ''
         // pure_content: ''
-      },
-      buttons: [
-        { name: 'button_detail', symbol: 'IMAGE_TEXT_DETAIL' },
-        { name: 'button_edit', symbol: 'IMAGE_TEXT_EDIT' },
-        { name: 'button_add', symbol: 'IMAGE_TEXT_ADD' },
-        { name: 'button_del', symbol: 'IMAGE_TEXT_DEL' }
-      ]
+      }
     }
   },
   created() {

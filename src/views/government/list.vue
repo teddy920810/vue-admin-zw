@@ -43,8 +43,8 @@
       </el-table-column>
       <el-table-column label="操作" width="190">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleBindGovernment(scope.row)">编辑</el-button>
-          <el-button v-if="scope.row.office_name" type="info" size="mini" @click="handleRoleGovernment(scope.row)">角色配置</el-button>
+          <el-button v-if="hasButton('OFFICE_EDIT')" type="primary" size="mini" icon="el-icon-edit" @click="handleBindGovernment(scope.row)">编辑</el-button>
+          <el-button v-if="hasButton('USER_ROLE_EDIT') && scope.row.office_name" type="info" size="mini" @click="handleRoleGovernment(scope.row)">角色配置</el-button>
         </template>
       </el-table-column>
     </el-table>

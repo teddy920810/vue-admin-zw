@@ -49,15 +49,15 @@
         <template slot-scope="scope">
           <div style="margin-bottom: 5px">
             <router-link :to="'/question/comment/'+scope.row.id" style="width: 80px" >
-              <el-button type="primary" size="mini">评论管理</el-button>
+              <el-button v-if="hasButton('QUESTION_COMMENT')" type="primary" size="mini">评论管理</el-button>
             </router-link>
-            <el-button v-if="scope.row.answer==''" type="primary" size="mini" @click="handleUpdate(scope.row)">回答</el-button>
-            <el-button v-else type="primary" size="mini" @click="handleUpdate(scope.row)">修改回答</el-button>
+            <el-button v-if="scope.row.answer=='' && hasButton('QUESTION_ANSWER')" type="primary" size="mini" @click="handleUpdate(scope.row)">回答</el-button>
+            <el-button v-else-if="hasButton('QUESTION_ANSWER')" type="primary" size="mini" @click="handleUpdate(scope.row)">修改回答</el-button>
           </div>
           <div>
             <el-button type="danger" size="mini" icon="el-icon-delete" circle @click="deleteData(scope.row)"/>
-            <el-button v-if="scope.row.status==0 || scope.row.status==2" round type="success" size="mini" @click="auditQ(scope.row, 1)">通过</el-button>
-            <el-button v-if="scope.row.status==0 || scope.row.status==1" round type="danger" size="mini" @click="auditQ(scope.row, 2)">拒绝</el-button>
+            <el-button v-if="hasButton('QUESTION_AUDIT') && (scope.row.status==0 || scope.row.status==2)" round type="success" size="mini" @click="auditQ(scope.row, 1)">通过</el-button>
+            <el-button v-if="hasButton('QUESTION_AUDIT') && (scope.row.status==0 || scope.row.status==1)" round type="danger" size="mini" @click="auditQ(scope.row, 2)">拒绝</el-button>
           </div>
         </template>
       </el-table-column>

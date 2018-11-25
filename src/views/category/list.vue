@@ -3,7 +3,7 @@
     <div class="filter-container">
       <el-input v-model="listQuery.name" placeholder="搜索名称" class="filter-item" style="width: 200px;" @keyup.enter.native="handleFilter"/>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-plus" @click="handleCreate">添加</el-button>
+      <el-button v-if="hasButton('CATEGORY_ADD')" class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-plus" @click="handleCreate">添加</el-button>
     </div>
     <el-table
       v-loading="listLoading"
@@ -28,8 +28,8 @@
       </el-table-column>
       <el-table-column align="center" label="操作">
         <template slot-scope="scope">
-          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleUpdate(scope.row)">编辑</el-button>
-          <el-button type="danger" size="small" icon="el-icon-delete" circle @click="deleteData(scope.row)"/>
+          <el-button v-if="hasButton('CATEGORY_EDIT')" type="primary" size="small" icon="el-icon-edit" @click="handleUpdate(scope.row)">编辑</el-button>
+          <el-button v-if="hasButton('CATEGORY_DEL')" type="danger" size="small" icon="el-icon-delete" circle @click="deleteData(scope.row)"/>
         </template>
       </el-table-column>
     </el-table>
