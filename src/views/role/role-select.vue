@@ -26,7 +26,6 @@ export default {
   watch: {
     defaultValue(val) {
       this.value = val
-      console.log(this.$refs.select)
     }
   },
   created() {

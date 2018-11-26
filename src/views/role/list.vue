@@ -3,7 +3,7 @@
     <div class="filter-container">
       <el-input v-model="listQuery.name" placeholder="搜索名称" class="filter-item" style="width: 200px;" @keyup.enter.native="handleFilter"/>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
-      <el-button v-if="hasButton('ROLE_ADD')" class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-plus" @click="handleCreate">添加</el-button>
+      <el-button v-if="hasButton('PP_ROLE_ADD')" class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-plus" @click="handleCreate">添加</el-button>
     </div>
     <el-table
       v-loading="listLoading"
@@ -28,9 +28,9 @@
       </el-table-column>
       <el-table-column align="center" label="操作" width="240">
         <template slot-scope="scope">
-          <el-button v-if="hasButton('ROLE_EDIT')" type="primary" size="mini" @click="handleUpdate(scope.row)">修改</el-button>
-          <el-button v-if="hasButton('ROLE_DEL')" type="danger" size="mini" @click="deleteData(scope.row)">删除</el-button>
-          <el-button v-if="hasButton('ROLE_EDIT')" type="info" size="mini" @click="handlerPermission(scope.row)">模块配置</el-button>
+          <el-button v-if="hasButton('PP_ROLE_EDIT')" type="primary" size="mini" @click="handleUpdate(scope.row)">修改</el-button>
+          <el-button v-if="hasButton('PP_ROLE_DEL')" type="danger" size="mini" @click="deleteData(scope.row)">删除</el-button>
+          <el-button v-if="hasButton('PP_ROLE_EDIT')" type="info" size="mini" @click="handlerPermission(scope.row)">模块配置</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -217,7 +217,6 @@ export default {
       this.$refs['dataFormPermission'].validate((valid) => {
         if (valid) {
           delete this.role_permission.role_name
-          console.log(this.role_permission)
           editRolePermission(this.role_permission).then(() => {
             this.getList()
             this.dialogPermissionVisible = false
@@ -244,8 +243,6 @@ export default {
       this.getList()
     },
     hasCheckOpinion(val) {
-      console.log('父级：' + val.toString().split(','))
-      console.log(val)
       this.role_permission.permission_ids = val
     }
   }

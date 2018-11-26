@@ -50,13 +50,13 @@ export const asyncRouterMap = [
   {
     path: '/role',
     component: Layout,
-    meta: { roles: ['ROLE_MANAGE'] },
+    meta: { roles: ['PP_ROLE_MANAGE'] },
     children: [
       {
         path: 'index',
         name: '角色管理',
         component: () => import('@/views/role/list'),
-        meta: { title: '角色管理', icon: 'form', roles: ['ROLE_MANAGE'] }
+        meta: { title: '角色管理', icon: 'form', roles: ['PP_ROLE_MANAGE'] }
       }
     ]
   },
@@ -64,19 +64,19 @@ export const asyncRouterMap = [
     path: '/question',
     component: Layout,
     redirect: '/question/index',
-    meta: { roles: ['QUESTION_MANAGE'] },
+    meta: { roles: ['PP_QUESTION_MANAGE'] },
     children: [
       {
         path: 'index',
         name: '问答管理',
         component: () => import('@/views/question/list'),
-        meta: { title: '问答管理', icon: 'form', roles: ['QUESTION_MANAGE'] }
+        meta: { title: '问答管理', icon: 'form', roles: ['PP_QUESTION_MANAGE'] }
       },
       {
         path: 'comment/:qu_id',
         name: '问答评论',
         component: () => import('@/views/question/comment-list'),
-        meta: { title: '问答评论', icon: 'form', roles: ['QUESTION_ANSWER'] },
+        meta: { title: '问答评论', icon: 'form', roles: ['PP_QUESTION_ANSWER'] },
         hidden: true
       }
     ]
@@ -89,10 +89,10 @@ export const asyncRouterMap = [
         path: 'index',
         name: '政务号',
         component: () => import('@/views/government/list'),
-        meta: { title: '政务号管理', icon: 'form', roles: ['OFFICE_MANAGE'] }
+        meta: { title: '政务号管理', icon: 'form', roles: ['PP_OFFICE_MANAGE'] }
       }
     ],
-    meta: { roles: ['OFFICE_MANAGE'] }
+    meta: { roles: ['PP_OFFICE_MANAGE'] }
   },
   {
     path: '/category',
@@ -102,10 +102,10 @@ export const asyncRouterMap = [
         path: 'list',
         name: '类别管理',
         component: () => import('@/views/category/list'),
-        meta: { title: '类别管理', icon: 'form', roles: ['CATEGORY_MANAGE'] }
+        meta: { title: '类别管理', icon: 'form', roles: ['PP_CATEGORY_MANAGE'] }
       }
     ],
-    meta: { roles: ['CATEGORY_MANAGE'] }
+    meta: { roles: ['PP_CATEGORY_MANAGE'] }
   },
   {
     path: '/config',
@@ -115,28 +115,28 @@ export const asyncRouterMap = [
         path: 'index',
         name: '政务指数配置',
         component: () => import('@/views/config/index'),
-        meta: { title: '政务指数配置', icon: 'form', roles: ['OFFICE_INDEX_MANAGE'] }
+        meta: { title: '政务指数配置', icon: 'form', roles: ['PP_OFFICE_INDEX_MANAGE'] }
       }
     ],
-    meta: { roles: ['OFFICE_INDEX_MANAGE'] }
+    meta: { roles: ['PP_OFFICE_INDEX_MANAGE'] }
   },
   {
     path: '/picart',
     component: Layout,
     redirect: '/picart/list',
-    meta: { roles: ['IMAGE_TEXT_MANAGE'] },
+    meta: { roles: ['PP_IMAGE_TEXT_MANAGE'] },
     children: [
       {
         path: 'list',
         name: '图文管理',
         component: () => import('@/views/picture_article/list'),
-        meta: { title: '图文管理', icon: 'form', roles: ['IMAGE_TEXT_MANAGE'] }
+        meta: { title: '图文管理', icon: 'form', roles: ['PP_IMAGE_TEXT_MANAGE'] }
       },
       {
         path: 'comment/:pa_id',
         name: '图文评论',
         component: () => import('@/views/picture_article/comment-list'),
-        meta: { title: '图文评论', icon: 'form' },
+        meta: { title: '图文评论', icon: 'form', roles: ['PP_IMAGE_TEXT_COMMENT'] },
         hidden: true
       }
     ]

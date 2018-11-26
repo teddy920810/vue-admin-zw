@@ -43,8 +43,8 @@
       </el-table-column>
       <el-table-column label="操作" width="190">
         <template slot-scope="scope">
-          <el-button v-if="hasButton('OFFICE_EDIT')" type="primary" size="mini" icon="el-icon-edit" @click="handleBindGovernment(scope.row)">编辑</el-button>
-          <el-button v-if="hasButton('USER_ROLE_EDIT') && scope.row.office_name" type="info" size="mini" @click="handleRoleGovernment(scope.row)">角色配置</el-button>
+          <el-button v-if="hasButton('PP_OFFICE_EDIT')" type="primary" size="mini" icon="el-icon-edit" @click="handleBindGovernment(scope.row)">编辑</el-button>
+          <el-button v-if="hasButton('PP_OFFICE_ROLE') && scope.row.office_name" type="info" size="mini" @click="handleRoleGovernment(scope.row)">角色配置</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -218,7 +218,6 @@ export default {
             })
           })
         }
-        console.log(this.role_government)
       })
     },
     handleFilter() {
@@ -234,7 +233,6 @@ export default {
       this.getList()
     },
     selectRegion(data) {
-      console.log(data)
       this.government.office_province_id = data[0]
       this.government.office_city_id = data[1]
     },

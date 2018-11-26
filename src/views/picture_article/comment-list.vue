@@ -85,7 +85,6 @@ export default {
         const replyObj = this.toJson(list[index].reply_json)
         list[index].children = replyObj
       }
-      console.log(list)
       return list
     },
     handleSizeChange(val) {
