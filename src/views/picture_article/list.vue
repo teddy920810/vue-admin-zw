@@ -98,7 +98,7 @@
             <img v-if="picart.first_image" :src="GLOBAL.fileBaseUrl+picart.first_image" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"/>
           </el-upload>
-          封面图片建议尺寸： 100*100
+          封面图片建议尺寸：大图显示： 690*286 小图显示：200*200
         </el-form-item>
         <!--<el-form-item label="纯文本内容" prop="pure_content">
           <el-input v-model="picart.pure_content"/>
