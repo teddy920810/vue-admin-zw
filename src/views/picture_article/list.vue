@@ -98,7 +98,7 @@
             <img v-if="picart.first_image" :src="GLOBAL.fileBaseUrl+picart.first_image" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"/>
           </el-upload>
-          封面尺寸100*100
+          封面图片建议尺寸： 100*100
         </el-form-item>
         <!--<el-form-item label="纯文本内容" prop="pure_content">
           <el-input v-model="picart.pure_content"/>
@@ -269,7 +269,7 @@ export default {
   methods: {
     getImageCategory() {
       getImageCategoryList().then(response => {
-        this.selectOption = response.data.list
+        this.selectOption = response.data
       })
     },
     getList() {
