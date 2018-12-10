@@ -2,9 +2,9 @@
   <el-menu class="navbar" mode="horizontal">
     <hamburger :toggle-click="toggleSideBar" :is-active="sidebar.opened" class="hamburger-container"/>
     <breadcrumb />
-    <el-dropdown class="avatar-container" trigger="click">
+    <!--<el-dropdown class="avatar-container" trigger="click">
       <div class="avatar-wrapper">
-        <!--<img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">-->
+        &lt;!&ndash;<img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">&ndash;&gt;
         <img src="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80" class="user-avatar">
         <i class="el-icon-caret-bottom"/>
       </div>
@@ -18,7 +18,7 @@
           <span style="display:block;" @click="logout">退出</span>
         </el-dropdown-item>
       </el-dropdown-menu>
-    </el-dropdown>
+    </el-dropdown>-->
   </el-menu>
 </template>
 

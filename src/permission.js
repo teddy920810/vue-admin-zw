@@ -21,7 +21,7 @@ router.beforeEach((to, from, next) => {
         next({ path: '/' })
         NProgress.done()
       } else {
-        if (getToken() === res) { // 如果localStorage的token与cookie的token相等
+        if (getToken() === res && store.getters.roles.length !== 0) { // 如果localStorage的token与cookie的token相等
           if (hasPermission(store.getters.roles, to.meta.roles)) {
             if (to.path === '/government' || store.getters.name) {
               next()

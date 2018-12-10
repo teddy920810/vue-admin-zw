@@ -71,13 +71,17 @@ export default {
   computed: {
     ...mapGetters([
       'name',
-      'roles'
+      'roles',
+      'addRouters'
     ])
   },
   created() {
     this.dialogFormVisible = Object.is('', this.name)
     if (this.roles.length === 0) {
       this.$router.push({ path: '/401' })
+    }
+    if (this.addRouters.length > 0) {
+      this.$router.push({ path: this.addRouters[0].path })
     }
   },
   methods: {

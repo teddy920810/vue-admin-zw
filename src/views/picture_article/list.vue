@@ -98,6 +98,7 @@
             <img v-if="picart.first_image" :src="GLOBAL.fileBaseUrl+picart.first_image" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"/>
           </el-upload>
+          封面尺寸100*100
         </el-form-item>
         <!--<el-form-item label="纯文本内容" prop="pure_content">
           <el-input v-model="picart.pure_content"/>
@@ -260,7 +261,8 @@ export default {
             return this.GLOBAL.fileBaseUrl + response.data
           },
           name: 'file'
-        }
+        },
+        placeholder: '您想说点什么？'
       }
     )
   },
@@ -409,5 +411,94 @@ export default {
     width: 240px;
     height: 120px;
     display: block;
+  }
+  /**
+    汉化富文本编辑器
+   */
+  .ql-snow .ql-picker.ql-header .ql-picker-label::before,
+  .ql-snow .ql-picker.ql-header .ql-picker-item::before {
+    content: '标准';
+  }
+  .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="1"]::before,
+  .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="1"]::before {
+    content: '标题 1';
+  }
+  .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="2"]::before,
+  .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="2"]::before {
+    content: '标题 2';
+  }
+  .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="3"]::before,
+  .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="3"]::before {
+    content: '标题 3';
+  }
+  .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="4"]::before,
+  .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="4"]::before {
+    content: '标题 4';
+  }
+  .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="5"]::before,
+  .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="5"]::before {
+    content: '标题 5';
+  }
+  .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="6"]::before,
+  .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="6"]::before {
+    content: '标题 6';
+  }
+
+  .ql-snow .ql-picker.ql-font .ql-picker-label::before,
+  .ql-snow .ql-picker.ql-font .ql-picker-item::before {
+    content: '标准字体';
+  }
+  .ql-snow .ql-picker.ql-font .ql-picker-label[data-value=serif]::before,
+  .ql-snow .ql-picker.ql-font .ql-picker-item[data-value=serif]::before {
+    content: '衬线字体';
+  }
+  .ql-snow .ql-picker.ql-font .ql-picker-label[data-value=monospace]::before,
+  .ql-snow .ql-picker.ql-font .ql-picker-item[data-value=monospace]::before {
+    content: '等宽字体';
+  }
+  .ql-snow .ql-picker.ql-size .ql-picker-label::before,
+  .ql-snow .ql-picker.ql-size .ql-picker-item::before {
+    content: '标准';
+  }
+  .ql-snow .ql-picker.ql-size .ql-picker-label[data-value=small]::before,
+  .ql-snow .ql-picker.ql-size .ql-picker-item[data-value=small]::before {
+    content: '小';
+  }
+  .ql-snow .ql-picker.ql-size .ql-picker-label[data-value=large]::before,
+  .ql-snow .ql-picker.ql-size .ql-picker-item[data-value=large]::before {
+    content: '大';
+  }
+  .ql-snow .ql-picker.ql-size .ql-picker-label[data-value=huge]::before,
+  .ql-snow .ql-picker.ql-size .ql-picker-item[data-value=huge]::before {
+    content: '巨大';
+  }
+  .ql-snow .ql-tooltip::before {
+    content: "访问网址:";
+    line-height: 26px;
+    margin-right: 8px;
+  }
+  .ql-snow .ql-tooltip a.ql-action::after {
+    border-right: 1px solid #ccc;
+    content: '编辑';
+    margin-left: 16px;
+    padding-right: 8px;
+  }
+  .ql-snow .ql-tooltip a.ql-remove::before {
+    content: '删除';
+    margin-left: 8px;
+  }
+  .ql-snow .ql-tooltip.ql-editing a.ql-action::after {
+    border-right: 0px;
+    content: '保存';
+    padding-right: 0px;
+  }
+  .ql-snow .ql-tooltip[data-mode=link]::before {
+    content: "输入链接:";
+  }
+  .ql-snow .ql-tooltip[data-mode=formula]::before {
+    content: "输入公式:";
+  }
+  .ql-snow .ql-tooltip[data-mode=video]::before {
+    content: "输入视频:";
   }
 </style>

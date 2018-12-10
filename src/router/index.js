@@ -50,6 +50,7 @@ export const asyncRouterMap = [
   {
     path: '/role',
     component: Layout,
+    redirect: '/role/index',
     meta: { roles: ['PP_ROLE_MANAGE'] },
     children: [
       {
@@ -84,6 +85,7 @@ export const asyncRouterMap = [
   {
     path: '/government',
     component: Layout,
+    redirect: '/government/index',
     children: [
       {
         path: 'index',
@@ -97,6 +99,7 @@ export const asyncRouterMap = [
   {
     path: '/category',
     component: Layout,
+    redirect: '/category/list',
     children: [
       {
         path: 'list',
@@ -110,6 +113,7 @@ export const asyncRouterMap = [
   {
     path: '/config',
     component: Layout,
+    redirect: '/config/index',
     children: [
       {
         path: 'index',
