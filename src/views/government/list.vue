@@ -11,9 +11,11 @@
       element-loading-text="Loading"
       fit
       highlight-current-row>
-      <el-table-column label="用户名">
+      <el-table-column label="头像">
         <template slot-scope="scope">
-          {{ scope.row.user_name }}
+          <img v-if="scope.row.head_pic" :src="GLOBAL.fileBaseUrl + scope.row.head_pic" width="50" height="50">
+          <img v-else src="@/assets/img/webwxgetmsgimg.png" width="50" height="50"><br>
+          <span>{{ scope.row.user_name }}</span>
         </template>
       </el-table-column>
       <el-table-column label="真实姓名">
@@ -65,29 +67,7 @@
         <el-form-item label="名称" prop="office_name">
           <el-input v-model="government.office_name"/>
         </el-form-item>
-        <el-form-item label="描述" prop="office_desc">
-          <el-input v-model="government.office_desc"/>
-        </el-form-item>
-        <el-form-item label="所属地区" prop="office_city_id">
-          <region :select-option="[government.office_province_id,government.office_city_id]" @selectRegion="selectRegion"/>
-        </el-form-item>
-        <el-form-item label="政务指数" prop="office_index">
-          <el-input v-model="government.office_index"/>
-        </el-form-item>
-        <el-form-item label="banner图片" prop="banner_pic">
-          <el-upload
-            :show-file-list="false"
-            :before-upload="beforeBannerUpload"
-            :on-success="handleBannerSuccess"
-            :action="GLOBAL.uploadFileUrl"
-            :headers="myHeader"
-            class="avatar-uploader">
-            <img v-if="government.banner_pic" :src="GLOBAL.fileBaseUrl+government.banner_pic" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"/>
-          </el-upload>
-          图片建议尺寸：100*1000
-        </el-form-item>
-        <el-form-item label="头像" prop="head_pic">
+        <el-form-item label="头像">
           <el-upload
             :show-file-list="false"
             :before-upload="beforeHeadUpload"
@@ -98,7 +78,29 @@
             <img v-if="government.head_pic" :src="GLOBAL.fileBaseUrl+government.head_pic" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"/>
           </el-upload>
-          图片建议尺寸：100*1000
+          图片建议尺寸：100*100
+        </el-form-item>
+        <el-form-item label="描述" prop="office_desc">
+          <el-input v-model="government.office_desc"/>
+        </el-form-item>
+        <el-form-item label="所属地区" prop="office_city_id">
+          <region :select-option="[government.office_province_id,government.office_city_id]" @selectRegion="selectRegion"/>
+        </el-form-item>
+        <el-form-item label="政务指数" prop="office_index">
+          <el-input v-model="government.office_index"/>
+        </el-form-item>
+        <el-form-item label="banner图片">
+          <el-upload
+            :show-file-list="false"
+            :before-upload="beforeBannerUpload"
+            :on-success="handleBannerSuccess"
+            :action="GLOBAL.uploadFileUrl"
+            :headers="myHeader"
+            class="banner-uploader">
+            <img v-if="government.banner_pic" :src="GLOBAL.fileBaseUrl+government.banner_pic" class="banner">
+            <i v-else class="el-icon-plus banner-uploader-icon"/>
+          </el-upload>
+          图片建议尺寸：240*120
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -176,13 +178,7 @@ export default {
         ],
         office_index: [
           { required: true, message: '请输入', trigger: 'blur' },
-          { validator(r, v, b) { (/^[\d]*$/).test(v) ? b() : b(new Error('请填写数字')) } }
-        ],
-        head_pic: [
-          { required: true, message: '请上传', trigger: 'blur' }
-        ],
-        banner_pic: [
-          { required: true, message: '请上传', trigger: 'blur' }
+          { validator(r, v, b) { (/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/).test(v) ? b() : b(new Error('请填写数字')) } }
         ]
       }
     }
@@ -314,7 +310,7 @@ export default {
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    width: 240px;
+    width: 120px;
     height: 120px;
   }
   .avatar-uploader:hover {
@@ -323,12 +319,37 @@ export default {
   .avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
-    width: 240px;
+    width: 120px;
     height: 120px;
     line-height: 120px;
     text-align: center;
   }
   .avatar {
+    width: 120px;
+    height: 120px;
+    display: block;
+  }
+  .banner-uploader {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    width: 240px;
+    height: 120px;
+  }
+  .banner-uploader:hover {
+    border-color: #409EFF;
+  }
+  .banner-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 240px;
+    height: 120px;
+    line-height: 120px;
+    text-align: center;
+  }
+  .banner {
     width: 240px;
     height: 120px;
     display: block;
