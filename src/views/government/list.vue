@@ -74,6 +74,32 @@
         <el-form-item label="政务指数" prop="office_index">
           <el-input v-model="government.office_index"/>
         </el-form-item>
+        <el-form-item label="banner图片" prop="banner_pic">
+          <el-upload
+            :show-file-list="false"
+            :before-upload="beforeBannerUpload"
+            :on-success="handleBannerSuccess"
+            :action="GLOBAL.uploadFileUrl"
+            :headers="myHeader"
+            class="avatar-uploader">
+            <img v-if="government.banner_pic" :src="GLOBAL.fileBaseUrl+government.banner_pic" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"/>
+          </el-upload>
+          图片建议尺寸：100*1000
+        </el-form-item>
+        <el-form-item label="头像" prop="head_pic">
+          <el-upload
+            :show-file-list="false"
+            :before-upload="beforeHeadUpload"
+            :on-success="handleHeadSuccess"
+            :action="GLOBAL.uploadFileUrl"
+            :headers="myHeader"
+            class="avatar-uploader">
+            <img v-if="government.head_pic" :src="GLOBAL.fileBaseUrl+government.head_pic" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"/>
+          </el-upload>
+          图片建议尺寸：100*1000
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取消</el-button>
@@ -101,13 +127,16 @@
 <script>
 import { getSysUserList, bindGovernment } from '@/api/government'
 import { editUserRole, getUserRoleInfoByUserId } from '@/api/role'
+import { getToken } from '@/utils/auth'
 import Region from '../region/index.vue'
 import RoleSelect from '../role/role-select.vue'
 
+const token = getToken()
 export default {
   components: { Region, RoleSelect },
   data() {
     return {
+      myHeader: { 'token': token },
       list: null,
       total: 0,
       listLoading: true,
@@ -122,7 +151,9 @@ export default {
         office_desc: '',
         office_index: '',
         office_province_id: '',
-        office_city_id: ''
+        office_city_id: '',
+        banner_pic: '',
+        head_pic: ''
       },
       role_government: {
         user_id: undefined,
@@ -146,6 +177,12 @@ export default {
         office_index: [
           { required: true, message: '请输入', trigger: 'blur' },
           { validator(r, v, b) { (/^[\d]*$/).test(v) ? b() : b(new Error('请填写数字')) } }
+        ],
+        head_pic: [
+          { required: true, message: '请上传', trigger: 'blur' }
+        ],
+        banner_pic: [
+          { required: true, message: '请上传', trigger: 'blur' }
         ]
       }
     }
@@ -242,7 +279,58 @@ export default {
     },
     changeOpinion(val) {
       this.role_government.role_ids = val
+    },
+    beforeBannerUpload(file) {
+      const isLt2M = file.size / 1024 / 1024 < 2
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!')
+      }
+      return isLt2M
+    },
+    beforeHeadUpload(file) {
+      const isLt2M = file.size / 1024 / 1024 < 2
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!')
+      }
+      return isLt2M
+    },
+    handleHeadSuccess(res, file) {
+      this.government.head_pic = res.data
+      console.log('head upload')
+      console.log(this.government.head_pic)
+    },
+    handleBannerSuccess(res, file) {
+      this.government.banner_pic = res.data
+      console.log('banner upload')
+      console.log(this.government.banner_pic)
     }
   }
 }
 </script>
+<style>
+  .avatar-uploader {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    width: 240px;
+    height: 120px;
+  }
+  .avatar-uploader:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 240px;
+    height: 120px;
+    line-height: 120px;
+    text-align: center;
+  }
+  .avatar {
+    width: 240px;
+    height: 120px;
+    display: block;
+  }
+</style>

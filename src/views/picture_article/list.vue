@@ -162,7 +162,7 @@ import { quillEditor } from 'vue-quill-editor'
 import { getList, addData, editData, deleteData, getImgDetail, getImageCategoryList } from '@/api/imagetext'
 import { getToken } from '@/utils/auth'
 
-var token = getToken()
+const token = getToken()
 export default {
   components: {
     quillEditor, quillRedefine

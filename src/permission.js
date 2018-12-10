@@ -21,7 +21,7 @@ router.beforeEach((to, from, next) => {
         next({ path: '/' })
         NProgress.done()
       } else {
-        if (getToken() === res && store.getters.roles.length !== 0) { // 如果localStorage的token与cookie的token相等
+        if (getToken() === res && store.getters.permission_routers) { // 如果localStorage的token与cookie的token相等
           if (hasPermission(store.getters.roles, to.meta.roles)) {
             if (to.path === '/government' || store.getters.name) {
               next()
@@ -40,7 +40,18 @@ router.beforeEach((to, from, next) => {
                 const roles = res // ['ADMIN','OFFICE']
                 store.dispatch('GenerateRoutes', { roles }).then(() => { // 根据roles生成可访问的路由表
                   router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表
-                  next({ ...to, replace: true })
+                  // next({ ...to, replace: true })
+                  if (hasPermission(store.getters.roles, to.meta.roles)) {
+                    if (to.path === '/government' || store.getters.name) {
+                      next()
+                    } else {
+                      store.dispatch('GetOfficeInfo').then(() => { // 政务号
+                        next({ ...to, replace: true })
+                      })
+                    }
+                  } else {
+                    next({ path: '/401', replace: true, query: { noGoBack: true }})
+                  }
                 })
               }).catch((err) => {
                 store.dispatch('FedLogOut').then(() => {

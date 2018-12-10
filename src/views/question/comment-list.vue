@@ -3,7 +3,8 @@
     <el-table :data="list" fit highlight-current-row>
       <el-table-column label="用户">
         <template slot-scope="scope">
-          <img :src="GLOBAL.fileBaseUrl + scope.row.member_head_pic" width="50" height="50">
+          <img v-if=" scope.row.member_head_pic" :src="GLOBAL.fileBaseUrl + scope.row.member_head_pic" width="50" height="50">
+          <img v-else src="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80" width="50" height="50">
           <span>{{ scope.row.member_nickname }}</span>
         </template>
       </el-table-column>

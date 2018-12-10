@@ -22,6 +22,32 @@
         <el-form-item label="政务指数" prop="office_index">
           <el-input v-model="government.office_index"/>
         </el-form-item>
+        <el-form-item label="banner图片" prop="banner_pic">
+          <el-upload
+            :show-file-list="false"
+            :before-upload="beforeBannerUpload"
+            :on-success="handleBannerSuccess"
+            :action="GLOBAL.uploadFileUrl"
+            :headers="myHeader"
+            class="avatar-uploader">
+            <img v-if="government.banner_pic" :src="GLOBAL.fileBaseUrl+government.banner_pic" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"/>
+          </el-upload>
+          图片建议尺寸：100*1000
+        </el-form-item>
+        <el-form-item label="头像" prop="head_pic">
+          <el-upload
+            :show-file-list="false"
+            :before-upload="beforeHeadUpload"
+            :on-success="handleHeadSuccess"
+            :action="GLOBAL.uploadFileUrl"
+            :headers="myHeader"
+            class="avatar-uploader">
+            <img v-if="government.head_pic" :src="GLOBAL.fileBaseUrl+government.head_pic" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"/>
+          </el-upload>
+          图片建议尺寸：100*1000
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="saveData">保存</el-button>
@@ -34,12 +60,15 @@
 import { mapGetters } from 'vuex'
 import { initGovernment } from '@/api/government'
 import Region from '../region/index.vue'
+import { getToken } from '@/utils/auth'
 
+const token = getToken()
 export default {
   name: 'Dashboard',
   components: { Region },
   data() {
     return {
+      myHeader: { 'token': token },
       dialogFormVisible: false,
       government: {
         user_id: undefined,
@@ -47,7 +76,9 @@ export default {
         office_desc: '',
         office_index: '',
         office_province_id: '',
-        office_city_id: ''
+        office_city_id: '',
+        banner_pic: '',
+        head_pic: ''
       },
       rules: {
         office_name: [
@@ -64,6 +95,12 @@ export default {
         office_index: [
           { required: true, message: '请输入', trigger: 'blur' },
           { validator(r, v, b) { (/^[\d]*$/).test(v) ? b() : b(new Error('请填写数字')) } }
+        ],
+        head_pic: [
+          { required: true, message: '请上传', trigger: 'blur' }
+        ],
+        banner_pic: [
+          { required: true, message: '请上传', trigger: 'blur' }
         ]
       }
     }
@@ -79,8 +116,7 @@ export default {
     this.dialogFormVisible = Object.is('', this.name)
     if (this.roles.length === 0) {
       this.$router.push({ path: '/401' })
-    }
-    if (this.addRouters.length > 0) {
+    } else if (this.addRouters.length > 0) {
       this.$router.push({ path: this.addRouters[0].path })
     }
   },
@@ -103,6 +139,26 @@ export default {
     selectRegion(data) {
       this.government.office_province_id = data[0]
       this.government.office_city_id = data[1]
+    },
+    beforeHeadUpload(file) {
+      const isLt2M = file.size / 1024 / 1024 < 2
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!')
+      }
+      return isLt2M
+    },
+    beforeBannerUpload(file) {
+      const isLt2M = file.size / 1024 / 1024 < 2
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!')
+      }
+      return isLt2M
+    },
+    handleBannerSuccess(res, file) {
+      this.government.banner_pic = res.data
+    },
+    handleHeadSuccess(res, file) {
+      this.government.head_pic = res.data
     }
   }
 }
