@@ -5,6 +5,7 @@
     :default-checked-keys="defaultCheckKeys"
     :props="defaultProps"
     show-checkbox
+    check-strictly="true"
     node-key="id"
     @check="checkVal"/>
 </template>
