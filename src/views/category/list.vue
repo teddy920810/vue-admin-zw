@@ -43,7 +43,6 @@
           <el-select v-model="category.type" placeholder="请选择类型">
             <el-option label="图文" value="1">图文</el-option>
             <el-option label="问答" value="2">问答</el-option>
-            <el-option label="我的" value="3">我的</el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="排序" prop="order_index">
