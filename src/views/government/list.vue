@@ -67,7 +67,7 @@
         <el-form-item label="名称" prop="office_name">
           <el-input v-model="government.office_name"/>
         </el-form-item>
-        <el-form-item label="头像">
+        <el-form-item label="头像" prop="head_pic">
           <el-upload
             :show-file-list="false"
             :before-upload="beforeHeadUpload"
@@ -89,7 +89,7 @@
         <el-form-item label="政务指数" prop="office_index">
           <el-input v-model="government.office_index"/>
         </el-form-item>
-        <el-form-item label="banner图片">
+        <el-form-item label="banner图片" prop="banner_pic">
           <el-upload
             :show-file-list="false"
             :before-upload="beforeBannerUpload"
@@ -179,6 +179,12 @@ export default {
         office_index: [
           { required: true, message: '请输入', trigger: 'blur' },
           { validator(r, v, b) { (/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/).test(v) ? b() : b(new Error('请填写数字')) } }
+        ],
+        banner_pic: [
+          { required: true, message: '请上传', trigger: 'blur' }
+        ],
+        head_pic: [
+          { required: true, message: '请上传', trigger: 'blur' }
         ]
       }
     }
@@ -292,13 +298,17 @@ export default {
     },
     handleHeadSuccess(res, file) {
       this.government.head_pic = res.data
-      console.log('head upload')
-      console.log(this.government.head_pic)
+      this.$message({
+        message: '上传成功',
+        type: 'success'
+      })
     },
     handleBannerSuccess(res, file) {
       this.government.banner_pic = res.data
-      console.log('banner upload')
-      console.log(this.government.banner_pic)
+      this.$message({
+        message: '上传成功',
+        type: 'success'
+      })
     }
   }
 }
