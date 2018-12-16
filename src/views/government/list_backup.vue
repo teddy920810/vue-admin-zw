@@ -2,8 +2,8 @@
   <div class="app-container">
     <div class="filter-container">
       <el-input v-model="listQuery.office_name" placeholder="搜索名称" class="filter-item" style="width: 200px;" @keyup.enter.native="handleFilter"/>
+      <!--<region :select-option="selectOption" class="filter-item" @selectRegion="searchRegion"/>-->
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
-      <el-button v-if="hasButton('PP_OFFICE_ADD')" class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-plus" @click="handleCreate">添加</el-button>
     </div>
     <el-table
       v-loading="listLoading"
@@ -62,11 +62,8 @@
         @current-change="handleCurrentChange"/>
     </div>
     <!-- 新增/修改政务号 -->
-    <el-dialog :visible.sync="dialogFormVisible" title="新增/编辑政务号">
+    <el-dialog :visible.sync="dialogFormVisible" title="绑定政务号">
       <el-form ref="dataForm" :rules="rules" :model="government" label-position="left" label-width="120px" style="width: 400px; margin-left:50px;">
-        <el-form-item label="选择用户" prop="user_id">
-          <user-select :default-value="government.user_id" @change="changeUserOpinion"/>
-        </el-form-item>
         <el-form-item label="名称" prop="office_name">
           <el-input v-model="government.office_name"/>
         </el-form-item>
@@ -135,11 +132,10 @@ import { editUserRole, getUserRoleInfoByUserId } from '@/api/role'
 import { getToken } from '@/utils/auth'
 import Region from '../region/index.vue'
 import RoleSelect from '../role/role-select.vue'
-import UserSelect from '../government/user-select.vue'
 
 const token = getToken()
 export default {
-  components: { Region, RoleSelect, UserSelect },
+  components: { Region, RoleSelect },
   data() {
     return {
       myHeader: { 'token': token },
@@ -169,9 +165,6 @@ export default {
       dialogFormVisible: false,
       dialogRoleFormVisible: false,
       rules: {
-        user_id: [
-          { required: true, message: '请选择', trigger: 'change' }
-        ],
         office_name: [
           { required: true, message: '请输入', trigger: 'blur' },
           { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' }
@@ -206,25 +199,6 @@ export default {
         this.list = response.data.list
         this.total = response.data.total
         this.listLoading = false
-      })
-    },
-    resetGovernment() {
-      this.government = {
-        user_id: undefined,
-        office_name: '',
-        office_desc: '',
-        office_index: '',
-        office_province_id: '',
-        office_city_id: '',
-        banner_pic: '',
-        head_pic: ''
-      }
-    },
-    handleCreate() {
-      this.resetGovernment()
-      this.dialogFormVisible = true
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
       })
     },
     handleBindGovernment(row) {
@@ -307,9 +281,6 @@ export default {
     },
     changeOpinion(val) {
       this.role_government.role_ids = val
-    },
-    changeUserOpinion(val) {
-      this.government.user_id = val
     },
     beforeBannerUpload(file) {
       const isLt2M = file.size / 1024 / 1024 < 2
