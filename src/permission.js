@@ -27,8 +27,6 @@ router.beforeEach((to, from, next) => {
               next()
             } else {
               store.dispatch('GetOfficeInfo').then((res) => { // 政务号
-                console.log(res)
-                alert(res)
                 if (res.data) {
                   next()
                 } else {
