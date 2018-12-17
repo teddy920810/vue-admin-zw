@@ -23,14 +23,18 @@ router.beforeEach((to, from, next) => {
       } else {
         if (getToken() === res && store.getters.permission_routers) { // 如果localStorage的token与cookie的token相等
           if (hasPermission(store.getters.roles, to.meta.roles)) {
-            if (to.path === '/government' || to.path === '/office_warning' || store.getters.name) {
+            if (to.path === '/government' || to.path === '/office_warning' || to.path === '/dashboard' || store.getters.name) {
               next()
             } else {
               store.dispatch('GetOfficeInfo').then((res) => { // 政务号
                 if (res.data) {
                   next()
                 } else {
-                  next({ path: '/office_warning', replace: true, query: { noGoBack: true }})
+                  if (store.getters.roles.indexOf('*') >= 0) {
+                    next({ path: '/dashboard', replace: true, query: { noGoBack: true }})
+                  } else {
+                    next({ path: '/office_warning', replace: true, query: { noGoBack: true }})
+                  }
                 }
               })
             }
