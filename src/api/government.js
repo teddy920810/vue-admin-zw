@@ -8,6 +8,38 @@ export function getSysUserList(params) {
   })
 }
 
+export function getGovernmentList(params) {
+  return request({
+    url: '/Office/list',
+    method: 'get',
+    params
+  })
+}
+
+export function addGovernment(data) {
+  return request({
+    url: '/Office/add',
+    method: 'post',
+    data
+  })
+}
+
+export function editGovernment(data) {
+  return request({
+    url: '/Office/edit',
+    method: 'post',
+    data
+  })
+}
+
+export function deleteGovernment(data) {
+  return request({
+    url: '/Office/del',
+    method: 'post',
+    data
+  })
+}
+
 export function bindGovernment(data) {
   return request({
     url: '/Office/edit',
@@ -21,12 +53,5 @@ export function initGovernment(data) {
     url: '/Office/init',
     method: 'post',
     data
-  })
-}
-
-export function getUserAll() {
-  return request({
-    url: '/User/all',
-    method: 'get'
   })
 }

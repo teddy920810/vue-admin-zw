@@ -23,11 +23,17 @@ router.beforeEach((to, from, next) => {
       } else {
         if (getToken() === res && store.getters.permission_routers) { // 如果localStorage的token与cookie的token相等
           if (hasPermission(store.getters.roles, to.meta.roles)) {
-            if (to.path === '/government' || store.getters.name) {
+            if (to.path === '/government' || to.path === '/office_warning' || store.getters.name) {
               next()
             } else {
-              store.dispatch('GetOfficeInfo').then(() => { // 政务号
-                next()
+              store.dispatch('GetOfficeInfo').then((res) => { // 政务号
+                console.log(res)
+                alert(res)
+                if (res.data) {
+                  next()
+                } else {
+                  next({ path: '/office_warning', replace: true, query: { noGoBack: true }})
+                }
               })
             }
           } else {

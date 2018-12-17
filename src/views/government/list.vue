@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.office_name" placeholder="搜索名称" class="filter-item" style="width: 200px;" @keyup.enter.native="handleFilter"/>
+      <el-input v-model="listQuery.name" placeholder="搜索政务号名称" class="filter-item" style="width: 200px;" @keyup.enter.native="handleFilter"/>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
       <el-button v-if="hasButton('PP_OFFICE_ADD')" class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-plus" @click="handleCreate">添加</el-button>
     </div>
@@ -11,42 +11,38 @@
       element-loading-text="Loading"
       fit
       highlight-current-row>
-      <el-table-column label="头像">
+      <el-table-column label="政务号">
         <template slot-scope="scope">
           <img v-if="scope.row.head_pic" :src="GLOBAL.fileBaseUrl + scope.row.head_pic" width="50" height="50">
           <img v-else src="@/assets/img/webwxgetmsgimg.png" width="50" height="50"><br>
-          <span>{{ scope.row.user_name }}</span>
+          <span>{{ scope.row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="真实姓名">
+      <el-table-column label="用户名">
         <template slot-scope="scope">
-          {{ scope.row.real_name }}
-        </template>
-      </el-table-column>
-      <el-table-column label="政务号名称">
-        <template slot-scope="scope">
-          {{ scope.row.office_name }}
+          {{ scope.row.user_name }}
         </template>
       </el-table-column>
       <el-table-column label="政务指数">
         <template slot-scope="scope">
-          {{ scope.row.office_index }}
+          {{ scope.row.index }}
         </template>
       </el-table-column>
       <el-table-column label="政务号描述">
         <template slot-scope="scope">
-          {{ scope.row.office_desc }}
+          {{ scope.row.desc }}
         </template>
       </el-table-column>
       <el-table-column label="地区">
         <template slot-scope="scope">
-          {{ scope.row.office_province }}{{ scope.row.office_city }}
+          {{ scope.row.province }}{{ scope.row.city }}
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="190">
+      <el-table-column label="操作" width="250">
         <template slot-scope="scope">
-          <el-button v-if="hasButton('PP_OFFICE_EDIT')" type="primary" size="mini" icon="el-icon-edit" @click="handleBindGovernment(scope.row)">编辑</el-button>
-          <el-button v-if="hasButton('PP_OFFICE_ROLE') && scope.row.office_name" type="info" size="mini" @click="handleRoleGovernment(scope.row)">角色配置</el-button>
+          <el-button v-if="hasButton('PP_OFFICE_EDIT')" type="primary" size="mini" @click="handleEditGovernment(scope.row)">编辑</el-button>
+          <el-button v-if="hasButton('PP_OFFICE_ROLE') && scope.row.name" type="info" size="mini" @click="handleRoleGovernment(scope.row)">角色配置</el-button>
+          <el-button v-if="hasButton('PP_OFFICE_DEL')" type="danger" size="mini" @click="deleteData(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -64,11 +60,37 @@
     <!-- 新增/修改政务号 -->
     <el-dialog :visible.sync="dialogFormVisible" title="新增/编辑政务号">
       <el-form ref="dataForm" :rules="rules" :model="government" label-position="left" label-width="120px" style="width: 400px; margin-left:50px;">
-        <el-form-item label="选择用户" prop="user_id">
-          <user-select :default-value="government.user_id" @change="changeUserOpinion"/>
+        <el-form-item label="选择用户" prop="user_name">
+          <el-input v-model="government.user_name" disabled style="width: 60%"/>
+          <el-popover
+            v-model="userListVisible"
+            placement="right"
+            width="300"
+            trigger="manual">
+            <div class="filter-container">
+              <el-input v-model="userListQuery.user_name" placeholder="账号" class="filter-item" style="width: 200px;" @keyup.enter.native="handleFilterUser"/>
+              <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilterUser"/>
+            </div>
+            <el-table
+              :data="userList"
+              highlight-current-row
+              @row-click="handleUserSelectChange">
+              <el-table-column width="150" property="user_id" label="用户ID"/>
+              <el-table-column width="150" property="user_name" label="用户账户"/>
+            </el-table>
+            <el-pagination
+              :current-page="userListQuery.page"
+              :page-size="listQuery.page_size"
+              :total="userTotal"
+              small
+              layout="prev, pager, next"
+              @size-change="handleSizeChangeUser"
+              @current-change="handleCurrentChangeUser"/>
+            <el-button slot="reference" @click="userListVisible = !userListVisible">选择用户</el-button>
+          </el-popover>
         </el-form-item>
-        <el-form-item label="名称" prop="office_name">
-          <el-input v-model="government.office_name"/>
+        <el-form-item label="名称" prop="name">
+          <el-input v-model="government.name"/>
         </el-form-item>
         <el-form-item label="头像" prop="head_pic">
           <el-upload
@@ -83,14 +105,14 @@
           </el-upload>
           图片建议尺寸：100*100
         </el-form-item>
-        <el-form-item label="描述" prop="office_desc">
-          <el-input v-model="government.office_desc"/>
+        <el-form-item label="描述" prop="desc">
+          <el-input v-model="government.desc"/>
         </el-form-item>
-        <el-form-item label="所属地区" prop="office_city_id">
-          <region :select-option="[government.office_province_id,government.office_city_id]" @selectRegion="selectRegion"/>
+        <el-form-item label="所属地区" prop="city_id">
+          <region :select-option="[government.province_id,government.city_id]" @selectRegion="selectRegion"/>
         </el-form-item>
-        <el-form-item label="政务指数" prop="office_index">
-          <el-input v-model="government.office_index"/>
+        <el-form-item label="政务指数" prop="index">
+          <el-input v-model="government.index"/>
         </el-form-item>
         <el-form-item label="banner图片" prop="banner_pic">
           <el-upload
@@ -130,16 +152,15 @@
 </template>
 
 <script>
-import { getSysUserList, bindGovernment } from '@/api/government'
+import { getGovernmentList, editGovernment, addGovernment, deleteGovernment, getSysUserList } from '@/api/government'
 import { editUserRole, getUserRoleInfoByUserId } from '@/api/role'
 import { getToken } from '@/utils/auth'
 import Region from '../region/index.vue'
 import RoleSelect from '../role/role-select.vue'
-import UserSelect from '../government/user-select.vue'
 
 const token = getToken()
 export default {
-  components: { Region, RoleSelect, UserSelect },
+  components: { Region, RoleSelect },
   data() {
     return {
       myHeader: { 'token': token },
@@ -149,15 +170,23 @@ export default {
       listQuery: {
         page: 1,
         page_size: 10,
-        office_name: null
+        name: null
+      },
+      userList: null,
+      userTotal: 0,
+      userListQuery: {
+        page: 1,
+        page_size: 5,
+        user_name: null
       },
       government: {
         user_id: undefined,
-        office_name: '',
-        office_desc: '',
-        office_index: '',
-        office_province_id: '',
-        office_city_id: '',
+        user_name: '',
+        name: '',
+        desc: '',
+        index: '',
+        province_id: '',
+        city_id: '',
         banner_pic: '',
         head_pic: ''
       },
@@ -169,21 +198,21 @@ export default {
       dialogFormVisible: false,
       dialogRoleFormVisible: false,
       rules: {
-        user_id: [
-          { required: true, message: '请选择', trigger: 'change' }
-        ],
-        office_name: [
-          { required: true, message: '请输入', trigger: 'blur' },
-          { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' }
-        ],
-        office_desc: [
-          { required: true, message: '请输入', trigger: 'blur' },
-          { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' }
-        ],
-        office_city_id: [
+        user_name: [
           { required: true, message: '请选择', trigger: 'blur' }
         ],
-        office_index: [
+        name: [
+          { required: true, message: '请输入', trigger: 'blur' },
+          { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' }
+        ],
+        desc: [
+          { required: true, message: '请输入', trigger: 'blur' },
+          { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' }
+        ],
+        city_id: [
+          { required: true, message: '请选择', trigger: 'blur' }
+        ],
+        index: [
           { required: true, message: '请输入', trigger: 'blur' },
           { validator(r, v, b) { (/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/).test(v) ? b() : b(new Error('请填写数字')) } }
         ],
@@ -193,7 +222,8 @@ export default {
         head_pic: [
           { required: true, message: '请上传', trigger: 'blur' }
         ]
-      }
+      },
+      userListVisible: false
     }
   },
   created() {
@@ -202,32 +232,41 @@ export default {
   methods: {
     getList() {
       this.listLoading = true
-      getSysUserList(this.listQuery).then(response => {
+      getGovernmentList(this.listQuery).then(response => {
         this.list = response.data.list
         this.total = response.data.total
         this.listLoading = false
       })
     },
+    getUserList() {
+      getSysUserList(this.userListQuery).then(response => {
+        this.userList = response.data.list
+        this.userTotal = response.data.total
+      })
+    },
     resetGovernment() {
       this.government = {
         user_id: undefined,
-        office_name: '',
-        office_desc: '',
-        office_index: '',
-        office_province_id: '',
-        office_city_id: '',
+        user_name: '',
+        name: '',
+        desc: '',
+        index: '',
+        province_id: '',
+        city_id: '',
         banner_pic: '',
         head_pic: ''
       }
     },
     handleCreate() {
+      this.getUserList()
       this.resetGovernment()
       this.dialogFormVisible = true
       this.$nextTick(() => {
         this.$refs['dataForm'].clearValidate()
       })
     },
-    handleBindGovernment(row) {
+    handleEditGovernment(row) {
+      this.getUserList()
       this.government = Object.assign({}, row)
       this.dialogFormVisible = true
       this.$nextTick(() => {
@@ -255,16 +294,29 @@ export default {
     saveData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          bindGovernment(this.government).then(() => {
-            this.getList()
-            this.dialogFormVisible = false
-            this.$notify({
-              title: '成功',
-              message: '操作成功',
-              type: 'success',
-              duration: 2000
+          if (this.government.id) {
+            editGovernment(this.government).then((res) => {
+              this.getList()
+              this.dialogFormVisible = false
+              this.$notify({
+                title: '成功',
+                message: '操作成功',
+                type: 'success',
+                duration: 2000
+              })
             })
-          })
+          } else {
+            addGovernment(this.government).then((res) => {
+              this.getList()
+              this.dialogFormVisible = false
+              this.$notify({
+                title: '成功',
+                message: '操作成功',
+                type: 'success',
+                duration: 2000
+              })
+            })
+          }
         }
       })
     },
@@ -297,9 +349,21 @@ export default {
       this.listQuery.page = val
       this.getList()
     },
+    handleFilterUser() {
+      this.userListQuery.page = 1
+      this.getUserList()
+    },
+    handleSizeChangeUser(val) {
+      this.userListQuery.page_size = val
+      this.getUserList()
+    },
+    handleCurrentChangeUser(val) {
+      this.userListQuery.page = val
+      this.getUserList()
+    },
     selectRegion(data) {
-      this.government.office_province_id = data[0]
-      this.government.office_city_id = data[1]
+      this.government.province_id = data[0]
+      this.government.city_id = data[1]
     },
     searchRegion(data) {
       this.listQuery.province_id = data[0]
@@ -307,9 +371,6 @@ export default {
     },
     changeOpinion(val) {
       this.role_government.role_ids = val
-    },
-    changeUserOpinion(val) {
-      this.government.user_id = val
     },
     beforeBannerUpload(file) {
       const isLt2M = file.size / 1024 / 1024 < 2
@@ -338,6 +399,32 @@ export default {
         message: '上传成功',
         type: 'success'
       })
+    },
+    deleteData(row) {
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        const deleteData = { id: row.id }
+        deleteGovernment(deleteData).then(() => {
+          this.getList()
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
+    },
+    handleUserSelectChange(val) {
+      this.government.user_id = val.user_id
+      this.government.user_name = val.user_name
+      this.userListVisible = false
     }
   }
 }
