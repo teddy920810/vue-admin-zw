@@ -51,7 +51,9 @@ export default {
   methods: {
     getData() {
       getList(this.listQuery).then(response => {
-        this.config = response.data.list[0]
+        if (response.data.list.length > 0) {
+          this.config = response.data.list[0]
+        }
       })
     },
     saveData() {
