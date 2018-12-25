@@ -58,7 +58,7 @@
         @current-change="handleCurrentChange"/>
     </div>
     <!-- 新增/修改政务号 -->
-    <el-dialog :visible.sync="dialogFormVisible" title="新增/编辑政务号">
+    <el-dialog :visible.sync="dialogFormVisible" :close-on-click-modal="false" title="新增/编辑政务号">
       <el-form ref="dataForm" :rules="rules" :model="government" label-position="left" label-width="120px" style="width: 400px; margin-left:50px;">
         <el-form-item label="选择用户" prop="user_name">
           <el-input v-model="government.user_name" disabled style="width: 60%"/>
@@ -80,7 +80,7 @@
             </el-table>
             <el-pagination
               :current-page="userListQuery.page"
-              :page-size="listQuery.page_size"
+              :page-size="userListQuery.page_size"
               :total="userTotal"
               small
               layout="prev, pager, next"
