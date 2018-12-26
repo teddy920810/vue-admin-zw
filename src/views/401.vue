@@ -3,8 +3,8 @@
     <el-row>
       <el-col :span="12">
         <h1 class="text-jumbo text-ginormous">Oops!</h1>
-        <h2>你没有权限去该页面</h2>
-        <h6>如有不满请联系你领导</h6>
+        <h2>无权限</h2>
+        <h6>请联系管理员为此账号分配权限</h6>
         <ul class="list-unstyled">
           <li>或者你可以去:</li>
           <!--<li class="link-type">
