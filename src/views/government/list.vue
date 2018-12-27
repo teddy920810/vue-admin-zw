@@ -137,7 +137,7 @@
     <el-dialog :visible.sync="dialogRoleFormVisible" title="角色配置">
       <el-form ref="dataRoleForm" :model="role_government" label-position="left" label-width="120px" style="width: 400px; margin-left:50px;">
         <el-form-item label="名称">
-          <el-input v-model="role_government.office_name" :disabled="true"/>
+          <el-input v-model="role_government.name" :disabled="true"/>
         </el-form-item>
         <el-form-item label="角色">
           <role-select :default-value="role_government.role_ids" @change="changeOpinion"/>
@@ -192,7 +192,7 @@ export default {
       },
       role_government: {
         user_id: undefined,
-        office_name: '',
+        name: '',
         role_ids: []
       },
       dialogFormVisible: false,
@@ -276,14 +276,14 @@ export default {
     resetRoleGovernment() {
       this.role_government = {
         user_id: undefined,
-        office_name: '',
+        name: '',
         role_ids: []
       }
     },
     handleRoleGovernment(row) {
       this.resetRoleGovernment()
       this.role_government.user_id = row.user_id
-      this.role_government.office_name = row.office_name
+      this.role_government.name = row.name
       getUserRoleInfoByUserId(this.role_government.user_id).then((res) => {
         res.data.forEach((role) => {
           this.role_government.role_ids.push(role.id)
@@ -325,7 +325,7 @@ export default {
     saveRoleData() {
       this.$refs['dataRoleForm'].validate((valid) => {
         if (valid) {
-          delete this.role_government.office_name
+          delete this.role_government.name
           editUserRole(this.role_government).then(() => {
             this.getList()
             this.dialogRoleFormVisible = false
