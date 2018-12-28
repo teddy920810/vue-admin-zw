@@ -32,15 +32,15 @@ export default {
       rules: {
         focused: [
           { required: true, message: '请输入', trigger: 'blur' },
-          { validator(r, v, b) { (/^[\d]*$/).test(v) ? b() : b(new Error('请填写数字')) } }
+          { validator(r, v, b) { (/^[0-9]+([.]{1}[0-9]+){0,1}$/).test(v) ? b() : b(new Error('请填写数字')) } }
         ],
         answer: [
           { required: true, message: '请输入', trigger: 'blur' },
-          { validator(r, v, b) { (/^[\d]*$/).test(v) ? b() : b(new Error('请填写数字')) } }
+          { validator(r, v, b) { (/^[0-9]+([.]{1}[0-9]+){0,1}$/).test(v) ? b() : b(new Error('请填写数字')) } }
         ],
         publish: [
           { required: true, message: '请输入', trigger: 'blur' },
-          { validator(r, v, b) { (/^[\d]*$/).test(v) ? b() : b(new Error('请填写数字')) } }
+          { validator(r, v, b) { (/^[0-9]+([.]{1}[0-9]+){0,1}$/).test(v) ? b() : b(new Error('请填写数字')) } }
         ]
       }
     }
