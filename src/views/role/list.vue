@@ -11,11 +11,6 @@
       element-loading-text="Loading"
       fit
       highlight-current-row>
-      <el-table-column label="ID">
-        <template slot-scope="scope">
-          {{ scope.row.id }}
-        </template>
-      </el-table-column>
       <el-table-column label="角色名">
         <template slot-scope="scope">
           {{ scope.row.name }}
