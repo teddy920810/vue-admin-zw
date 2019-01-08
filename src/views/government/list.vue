@@ -86,7 +86,7 @@
               layout="prev, pager, next"
               @size-change="handleSizeChangeUser"
               @current-change="handleCurrentChangeUser"/>
-            <el-button slot="reference" @click="userListVisible = true">选择用户</el-button>
+            <el-button v-show="dialogFormCreate" slot="reference" @click="userListVisible = true">选择用户</el-button>
           </el-popover>
         </el-form-item>
         <el-form-item label="名称" prop="name">
@@ -196,6 +196,7 @@ export default {
         role_ids: []
       },
       dialogFormVisible: false,
+      dialogFormCreate: false,
       dialogRoleFormVisible: false,
       rules: {
         user_name: [
@@ -260,6 +261,7 @@ export default {
     handleCreate() {
       this.getUserList()
       this.resetGovernment()
+      this.dialogFormCreate = true
       this.dialogFormVisible = true
       this.$nextTick(() => {
         this.$refs['dataForm'].clearValidate()
@@ -268,6 +270,7 @@ export default {
     handleEditGovernment(row) {
       this.getUserList()
       this.government = Object.assign({}, row)
+      this.dialogFormCreate = false
       this.dialogFormVisible = true
       this.$nextTick(() => {
         this.$refs['dataForm'].clearValidate()

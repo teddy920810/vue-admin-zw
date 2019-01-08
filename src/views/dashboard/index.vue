@@ -24,7 +24,7 @@
             <img v-if="government.head_pic" :src="GLOBAL.fileBaseUrl+government.head_pic" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"/>
           </el-upload>
-          图片建议尺寸：100*1000
+          图片建议尺寸：100*100
         </el-form-item>
         <el-form-item label="描述" prop="office_desc">
           <el-input v-model="government.desc"/>
