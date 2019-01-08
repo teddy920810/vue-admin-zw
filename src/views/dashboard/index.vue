@@ -117,10 +117,15 @@ export default {
     if (this.roles.length === 0) { // 无权限跳转401
       this.$router.push({ path: '/401' })
     } else if (this.addRouters.length > 0) { // 有权限
-      if (this.roles.indexOf('*') >= 0 || !Object.is('', this.name)) { // 超管或已完善信息跳转第一个路由
+      /* if (this.roles.indexOf('*') >= 0 || !Object.is('', this.name)) { // 超管或已完善信息跳转第一个路由
         this.$router.push({ path: this.addRouters[0].path })
       } else if (Object.is('', this.name)) { // 不是超管 且未完善信息 弹出层
         this.dialogFormVisible = Object.is('', this.name)
+      } */
+      if (Object.is('', this.name)) { // 未完善信息 弹出层
+        this.dialogFormVisible = Object.is('', this.name)
+      } else { // 已完善信息跳转第一个路由
+        this.$router.push({ path: this.addRouters[0].path })
       }
     }
   },
