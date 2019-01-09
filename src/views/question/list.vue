@@ -55,7 +55,7 @@
             <el-button v-else-if="hasButton('PP_QUESTION_ANSWER')" type="primary" size="mini" @click="handleUpdate(scope.row)">修改回答</el-button>
           </div>
           <div>
-            <el-button type="danger" size="mini" icon="el-icon-delete" circle @click="deleteData(scope.row)"/>
+            <el-button v-if="hasButton('PP_QUESTION_DEL')" type="danger" size="mini" icon="el-icon-delete" circle @click="deleteData(scope.row)"/>
             <el-button v-if="hasButton('PP_QUESTION_AUDIT') && (scope.row.status==0 || scope.row.status==2)" round type="success" size="mini" @click="auditQ(scope.row, 1)">通过</el-button>
             <el-button v-if="hasButton('PP_QUESTION_AUDIT') && (scope.row.status==0 || scope.row.status==1)" round type="danger" size="mini" @click="auditQ(scope.row, 2)">拒绝</el-button>
           </div>
