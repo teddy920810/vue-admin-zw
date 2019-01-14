@@ -1,20 +1,48 @@
 <template>
   <div class="app-container">
-    <el-form ref="dataForm" :rules="rules" :model="config" label-position="left" label-width="120px" style="width: 400px; margin-left:50px;">
-      <el-form-item label="政务号指数名" prop="name">
-        <el-input v-model="config.name"/>
+    <el-form ref="dataForm" :rules="rules" :model="config" label-position="left" label-width="140px" style="width: 700px; margin-left:50px;">
+      <h4>政务号指数设置</h4><hr>
+      <el-form-item label="政务号指数名称">
+        <el-input v-model="config.office_index_name"/>
+        若不设置，默认显示为 “政务指数”
       </el-form-item>
-      <el-form-item label="关注政务号" prop="focused">
-        <el-input v-model="config.focused"/>
+      <el-form-item label="关注政务号，增加" prop="focused">
+        <el-input v-model="config.focused">
+          <template slot="suffix">分</template>
+        </el-input>
       </el-form-item>
-      <el-form-item label="回答问题" prop="answer">
-        <el-input v-model="config.answer"/>
+      <el-form-item label="回答问题，增加" prop="answer">
+        <el-input v-model="config.answer">
+          <template slot="suffix">分</template>
+        </el-input>
       </el-form-item>
-      <el-form-item label="发布内容" prop="publish">
-        <el-input v-model="config.publish"/>
+      <el-form-item label="发布内容，增加" prop="publish">
+        <el-input v-model="config.publish">
+          <template slot="suffix">分</template>
+        </el-input>
+      </el-form-item>
+      <h4>APP设置</h4><hr>
+      <el-form-item label="APP底部提示" required>
+        <el-col :span="12">
+          <el-form-item prop="email">
+            <el-input v-model="config.email">
+              <template slot="prepend">发送邮件到</template>
+            </el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item prop="group">
+            <el-input v-model="config.group">
+              <template slot="prepend">申请加入</template>
+            </el-input>
+          </el-form-item>
+        </el-col>
+      </el-form-item>
+      <el-form-item label="APP底部特别声明">
+        <el-input v-model="config.sys_desp" :rows="7" type="textarea"/>
       </el-form-item>
     </el-form>
-    <div slot="footer" style="margin-left: 380px">
+    <div slot="footer" style="margin-left: 580px">
       <el-button type="primary" @click="saveData">保存</el-button>
     </div>
   </div>
@@ -30,7 +58,11 @@ export default {
         id: undefined,
         focused: '',
         answer: '',
-        publish: ''
+        publish: '',
+        office_index_name: '',
+        sys_desp: '',
+        email: '',
+        group: ''
       },
       rules: {
         focused: [
@@ -44,6 +76,12 @@ export default {
         publish: [
           { required: true, message: '请输入', trigger: 'blur' },
           { validator(r, v, b) { (/^[0-9]+([.]{1}[0-9]+){0,1}$/).test(v) ? b() : b(new Error('请填写数字')) } }
+        ],
+        email: [
+          { required: true, message: '请输入', trigger: 'blur' }
+        ],
+        group: [
+          { required: true, message: '请输入', trigger: 'blur' }
         ]
       }
     }
@@ -80,3 +118,15 @@ export default {
   }
 }
 </script>
+<style>
+  .el-input__suffix{
+    font-size: 14px;
+    color: #606266;
+    font-weight: 700;
+    right: -23px;
+  }
+  .el-input-group__prepend{
+    background-color: transparent;
+    border: none;
+  }
+</style>

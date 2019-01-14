@@ -49,7 +49,7 @@
         <template slot-scope="scope">
           <div style="margin-bottom: 5px">
             <router-link :to="'/question/comment/'+scope.row.id" style="width: 80px" >
-              <el-button v-if="hasButton('PP_QUESTION_COMMENT')" type="primary" size="mini">评论管理</el-button>
+              <el-button v-if="hasButton('PP_COMMENT_QUESTION_MANAGE')" type="primary" size="mini">评论管理</el-button>
             </router-link>
             <el-button v-if="scope.row.answer=='' && hasButton('QUESTION_ANSWER')" type="primary" size="mini" @click="handleUpdate(scope.row)">回答</el-button>
             <el-button v-else-if="hasButton('PP_QUESTION_ANSWER')" type="primary" size="mini" @click="handleUpdate(scope.row)">修改回答</el-button>

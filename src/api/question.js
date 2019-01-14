@@ -47,3 +47,11 @@ export function deleteComment(data) {
     data
   })
 }
+
+export function auditComment(data) {
+  return request({
+    url: '/Questioncomment/audit',
+    method: 'post',
+    data
+  })
+}

@@ -28,9 +28,16 @@
           <span>{{ scope.row.create_time | timeFilter }}</span>
         </template>
       </el-table-column>
+      <el-table-column align="center" label="状态">
+        <template slot-scope="scope">
+          <el-tag>{{ scope.row.status | statusFilter }}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
-          <el-button type="text" @click="deleteData(scope.row)">删除</el-button>
+          <el-button v-if="hasButton('PP_COMMENT_QUESTION_DEL')" type="text" @click="deleteData(scope.row)">删除</el-button>
+          <el-button v-if="hasButton('PP_COMMENT_QUESTION_AUDIT') && (scope.row.status==0 || scope.row.status==2)" type="text" @click="auditQ(scope.row, 1)">通过</el-button>
+          <el-button v-if="hasButton('PP_COMMENT_QUESTION_AUDIT') && (scope.row.status==0 || scope.row.status==1)" type="text" @click="auditQ(scope.row, 2)">拒绝</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -48,10 +55,20 @@
   </div>
 </template>
 <script>
-import { getCommentList, deleteComment } from '@/api/question'
+import { getCommentList, deleteComment, auditComment } from '@/api/question'
 
 export default {
   name: 'QuComment',
+  filters: {
+    statusFilter(status) {
+      const statusMap = {
+        0: '待审核',
+        1: '审核通过',
+        2: '审核拒绝'
+      }
+      return statusMap[status]
+    }
+  },
   data() {
     return {
       list: [],
@@ -116,7 +133,20 @@ export default {
           message: '已取消删除'
         })
       })
+    },
+    auditQ(row, status) {
+      const auditData = { id: row.id, status: status }
+      auditComment(auditData).then(() => {
+        this.getComment()
+        this.$notify({
+          title: '成功',
+          message: '操作成功',
+          type: 'success',
+          duration: 2000
+        })
+      })
     }
+
   }
 }
 </script>

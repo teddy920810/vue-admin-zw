@@ -45,7 +45,7 @@
         <template slot-scope="scope">
           <el-button v-if="hasButton('PP_IMAGE_TEXT_DETAIL')" type="info" size="mini" @click="handleImgDetail(scope.row)">查看详情</el-button>
           <router-link :to="'/picart/comment/'+scope.row.id">
-            <el-button v-if="hasButton('PP_IMAGE_TEXT_COMMENT')" type="primary" size="mini">评论管理</el-button>
+            <el-button v-if="hasButton('PP_COMMENT_IMAGETEXT_MANAGE')" type="primary" size="mini">评论管理</el-button>
           </router-link>
           <el-button v-if="hasButton('PP_IMAGE_TEXT_EDIT')" type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
           <el-button v-if="hasButton('PP_IMAGE_TEXT_DEL')" type="danger" size="mini" icon="el-icon-delete" circle @click="deleteData(scope.row)"/>

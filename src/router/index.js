@@ -78,7 +78,7 @@ export const asyncRouterMap = [
         path: 'comment/:qu_id',
         name: '问答评论',
         component: () => import('@/views/question/comment-list'),
-        meta: { title: '问答评论', icon: 'form', roles: ['PP_QUESTION_ANSWER'] },
+        meta: { title: '问答评论', icon: 'form', roles: ['PP_COMMENT_QUESTION_MANAGE'] },
         hidden: true
       }
     ]
@@ -113,24 +113,17 @@ export const asyncRouterMap = [
   },
   {
     path: '/config',
-    name: '系统设置',
     component: Layout,
     redirect: '/config/index',
     children: [
       {
         path: 'index',
-        name: '政务指数设置',
+        name: '系统设置',
         component: () => import('@/views/config/index'),
-        meta: { title: '政务指数设置', icon: 'form', roles: ['PP_OFFICE_INDEX_MANAGE'] }
-      },
-      {
-        path: 'app_index',
-        name: 'APP设置',
-        component: () => import('@/views/config/app_index'),
-        meta: { title: 'APP设置', icon: 'form', roles: ['PP_OFFICE_INDEX_MANAGE'] }
+        meta: { title: '系统设置', icon: 'form', roles: ['PP_SYSTEM_SETTING'] }
       }
     ],
-    meta: { title: '系统设置', icon: 'form', roles: ['PP_OFFICE_INDEX_MANAGE'] }
+    meta: { roles: ['PP_SYSTEM_SETTING'] }
   },
   {
     path: '/picart',
@@ -148,7 +141,7 @@ export const asyncRouterMap = [
         path: 'comment/:pa_id',
         name: '图文评论',
         component: () => import('@/views/picture_article/comment-list'),
-        meta: { title: '图文评论', icon: 'form', roles: ['PP_IMAGE_TEXT_COMMENT'] },
+        meta: { title: '图文评论', icon: 'form', roles: ['PP_COMMENT_IMAGETEXT_MANAGE'] },
         hidden: true
       }
     ]
