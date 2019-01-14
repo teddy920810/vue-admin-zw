@@ -4,7 +4,7 @@
       <el-table-column label="用户">
         <template slot-scope="scope">
           <img v-if="scope.row.member_head_pic" :src="GLOBAL.fileBaseUrl + scope.row.member_head_pic" width="50" height="50">
-          <img v-else src="@/assets/img/webwxgetmsgimg.png" width="50" height="50">
+          <img v-else src="@/assets/img/webwxgetmsgimg.png" width="50" height="50"><br>
           <span>{{ scope.row.member_nickname }}</span>
         </template>
       </el-table-column>
