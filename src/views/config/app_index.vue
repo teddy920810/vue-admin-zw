@@ -1,17 +1,8 @@
 <template>
   <div class="app-container">
     <el-form ref="dataForm" :rules="rules" :model="config" label-position="left" label-width="120px" style="width: 400px; margin-left:50px;">
-      <el-form-item label="政务号指数名" prop="name">
-        <el-input v-model="config.name"/>
-      </el-form-item>
-      <el-form-item label="关注政务号" prop="focused">
-        <el-input v-model="config.focused"/>
-      </el-form-item>
-      <el-form-item label="回答问题" prop="answer">
-        <el-input v-model="config.answer"/>
-      </el-form-item>
-      <el-form-item label="发布内容" prop="publish">
-        <el-input v-model="config.publish"/>
+      <el-form-item label="APP特别声明" prop="statement">
+        <el-input v-model="config.statement" :rows="12" type="textarea"/>
       </el-form-item>
     </el-form>
     <div slot="footer" style="margin-left: 380px">
@@ -28,23 +19,9 @@ export default {
     return {
       config: {
         id: undefined,
-        focused: '',
-        answer: '',
-        publish: ''
+        statement: ''
       },
       rules: {
-        focused: [
-          { required: true, message: '请输入', trigger: 'blur' },
-          { validator(r, v, b) { (/^[0-9]+([.]{1}[0-9]+){0,1}$/).test(v) ? b() : b(new Error('请填写数字')) } }
-        ],
-        answer: [
-          { required: true, message: '请输入', trigger: 'blur' },
-          { validator(r, v, b) { (/^[0-9]+([.]{1}[0-9]+){0,1}$/).test(v) ? b() : b(new Error('请填写数字')) } }
-        ],
-        publish: [
-          { required: true, message: '请输入', trigger: 'blur' },
-          { validator(r, v, b) { (/^[0-9]+([.]{1}[0-9]+){0,1}$/).test(v) ? b() : b(new Error('请填写数字')) } }
-        ]
       }
     }
   },

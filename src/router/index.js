@@ -113,17 +113,24 @@ export const asyncRouterMap = [
   },
   {
     path: '/config',
+    name: '系统设置',
     component: Layout,
     redirect: '/config/index',
     children: [
       {
         path: 'index',
-        name: '政务指数配置',
+        name: '政务指数设置',
         component: () => import('@/views/config/index'),
-        meta: { title: '政务指数配置', icon: 'form', roles: ['PP_OFFICE_INDEX_MANAGE'] }
+        meta: { title: '政务指数设置', icon: 'form', roles: ['PP_OFFICE_INDEX_MANAGE'] }
+      },
+      {
+        path: 'app_index',
+        name: 'APP设置',
+        component: () => import('@/views/config/app_index'),
+        meta: { title: 'APP设置', icon: 'form', roles: ['PP_OFFICE_INDEX_MANAGE'] }
       }
     ],
-    meta: { roles: ['PP_OFFICE_INDEX_MANAGE'] }
+    meta: { title: '系统设置', icon: 'form', roles: ['PP_OFFICE_INDEX_MANAGE'] }
   },
   {
     path: '/picart',
