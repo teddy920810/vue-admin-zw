@@ -22,6 +22,9 @@
         </el-input>
       </el-form-item>
       <h4>APP设置</h4><hr>
+      <el-form-item label="APP名称" prop="app_name">
+        <el-input v-model="config.app_name"/>
+      </el-form-item>
       <el-form-item label="APP底部提示" required>
         <el-col :span="12">
           <el-form-item prop="email">
@@ -62,7 +65,8 @@ export default {
         office_index_name: '',
         sys_desp: '',
         email: '',
-        group: ''
+        group: '',
+        app_name: ''
       },
       rules: {
         focused: [
@@ -81,6 +85,9 @@ export default {
           { required: true, message: '请输入', trigger: 'blur' }
         ],
         group: [
+          { required: true, message: '请输入', trigger: 'blur' }
+        ],
+        app_name: [
           { required: true, message: '请输入', trigger: 'blur' }
         ]
       }

@@ -26,7 +26,7 @@
           </el-upload>
           图片建议尺寸：100*100
         </el-form-item>
-        <el-form-item label="描述" prop="office_desc">
+        <el-form-item label="描述" prop="desc">
           <el-input v-model="government.desc"/>
         </el-form-item>
         <el-form-item label="所属地区" prop="city_id">
