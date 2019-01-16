@@ -162,6 +162,25 @@ const token = getToken()
 export default {
   components: { Region, RoleSelect },
   data() {
+    const officeIndexReg = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/
+    const checkOfficeIndex = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('政务指数不能为空'))
+      }
+      setTimeout(() => {
+        if (!officeIndexReg.test(value)) {
+          callback(new Error('请输入数字值'))
+        } else {
+          if (value < 0) {
+            callback(new Error('政务指数必须大于0'))
+          } else if (value > 9999.99) {
+            callback(new Error('政务指数不得超过9999.99'))
+          } else {
+            callback()
+          }
+        }
+      }, 1)
+    }
     return {
       myHeader: { 'token': token },
       list: null,
@@ -214,8 +233,9 @@ export default {
           { required: true, message: '请选择', trigger: 'blur' }
         ],
         index: [
-          { required: true, message: '请输入', trigger: 'blur' },
-          { validator(r, v, b) { (/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/).test(v) ? b() : b(new Error('请填写数字')) } }
+          { validator: checkOfficeIndex, trigger: 'blur' },
+          { min: 1, max: 7, message: '长度在 1 到 7 个字符', trigger: 'blur' }
+          // { validator(r, v, b) { (/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/).test(v) ? b() : b(new Error('请填写数字')) } }
         ],
         banner_pic: [
           { required: true, message: '请上传', trigger: 'blur' }
