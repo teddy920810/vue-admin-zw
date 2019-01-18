@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-form ref="dataForm" :rules="rules" :model="config" label-position="left" label-width="140px" style="width: 700px; margin-left:50px;">
       <h4>政务号指数设置</h4><hr>
-      <el-form-item label="政务号指数名称">
+      <el-form-item label="政务号指数名称" prop="office_index_name">
         <el-input v-model="config.office_index_name"/>
         若不设置，默认显示为 “政务指数”
       </el-form-item>
@@ -41,7 +41,7 @@
           </el-form-item>
         </el-col>
       </el-form-item>
-      <el-form-item label="APP底部特别声明">
+      <el-form-item label="APP底部特别声明" prop="sys_desp">
         <el-input v-model="config.sys_desp" :rows="7" type="textarea"/>
       </el-form-item>
     </el-form>
@@ -71,24 +71,36 @@ export default {
       rules: {
         focused: [
           { required: true, message: '请输入', trigger: 'blur' },
+          { min: 1, max: 6, message: '长度在 1 到 6 个字符', trigger: 'blur' },
           { validator(r, v, b) { (/^[0-9]+([.]{1}[0-9]+){0,1}$/).test(v) ? b() : b(new Error('请填写数字')) } }
         ],
         answer: [
           { required: true, message: '请输入', trigger: 'blur' },
+          { min: 1, max: 6, message: '长度在 1 到 6 个字符', trigger: 'blur' },
           { validator(r, v, b) { (/^[0-9]+([.]{1}[0-9]+){0,1}$/).test(v) ? b() : b(new Error('请填写数字')) } }
         ],
         publish: [
           { required: true, message: '请输入', trigger: 'blur' },
+          { min: 1, max: 6, message: '长度在 1 到 6 个字符', trigger: 'blur' },
           { validator(r, v, b) { (/^[0-9]+([.]{1}[0-9]+){0,1}$/).test(v) ? b() : b(new Error('请填写数字')) } }
         ],
         email: [
-          { required: true, message: '请输入', trigger: 'blur' }
+          { required: true, message: '请输入', trigger: 'blur' },
+          { min: 1, max: 30, message: '长度在 1 到 30 个字符', trigger: 'blur' }
         ],
         group: [
-          { required: true, message: '请输入', trigger: 'blur' }
+          { required: true, message: '请输入', trigger: 'blur' },
+          { min: 1, max: 30, message: '长度在 1 到 30 个字符', trigger: 'blur' }
         ],
         app_name: [
-          { required: true, message: '请输入', trigger: 'blur' }
+          { required: true, message: '请输入', trigger: 'blur' },
+          { min: 1, max: 6, message: '长度在 1 到 6 个字符', trigger: 'blur' }
+        ],
+        office_index_name: [
+          { max: 10, message: '长度不超过10 个字符', trigger: 'blur' }
+        ],
+        sys_desp: [
+          { max: 200, message: '长度不超过200 个字符', trigger: 'blur' }
         ]
       }
     }
